@@ -1,2 +1,2 @@
 #!/bin/bash
-rm -rf emacs/*~*
+rm -rf *~
