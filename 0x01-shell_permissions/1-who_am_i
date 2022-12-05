@@ -1,6 +1,2 @@
 #!/bin/bash
-<<<<<<< HEAD
-pwd
-=======
-sudo echo $USER
->>>>>>> 9d86a7bbb2c3e3e264fac6055192ae77010cc8a1
+whoami
