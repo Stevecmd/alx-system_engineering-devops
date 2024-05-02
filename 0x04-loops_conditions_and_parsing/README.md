@@ -606,6 +606,35 @@ The user mysql is part of the 107 gang, lives in /var/lib/mysql/ and rides /bin/
 ```
 File: `101-tell_the_story_of_passwd`
 
+13. Let's parse Apache logs
+Write a Bash script that displays the visitor IP along with the `HTTP status code` from the Apache log file.
+
+Requirement:
+
+- Format: IP HTTP_CODE
+       -in a list format
+       -See example
+- You must use awk
+- You are not allowed to use `while`, `for`, `until` and `cut`
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./102-lets_parse_apache_logs | tail -n 10
+185.130.5.207 301
+185.130.5.207 301
+91.224.140.223 200
+62.210.142.23 304
+92.222.20.166 304
+180.76.15.19 200
+2.1.201.36 304
+198.58.99.82 304
+50.116.30.23 304
+209.133.111.211 200
+
+```
+File: `102-lets_parse_apache_logs`
+
+
 
 ### Shell-Check mandatory tasks
 Combined shell check for mandatory tasks:
