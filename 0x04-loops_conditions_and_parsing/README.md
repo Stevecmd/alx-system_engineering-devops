@@ -95,3 +95,136 @@ For more information:
 stevecmd@DESKTOP-UTB295U:~/alx-system_engineering-devops/0x04-loops_conditions_and_parsing$ shellcheck good_script
 
 ```
+## Tasks
+
+0. Create a SSH RSA key pair
+Instructions. </ br>
+[Windows users](https://docs.rackspace.com/docs/generating-rsa-keys-with-ssh-puttygen)
+
+File: `0-RSA_public_key.pub`
+
+1. For Best School loop
+Write a Bash script that displays `Best School` 10 times.
+
+Requirement:
+
+- You must use the `for` loop (`while` and `until` are forbidden)
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# head -n 2 1-for_best_school 
+#!/usr/bin/env bash
+# This script is displaying "Best School" 10 times
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./1-for_best_school 
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+
+```
+File: `1-for_best_school`
+
+2. While Best School loop
+Write a Bash script that displays `Best School` 10 times.
+
+Requirements:
+
+- You must use the `while` loop (`for` and `until` are forbidden)
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./2-while_best_school
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+
+```
+
+File: `2-while_best_school`
+
+
+3. Until Best School loop
+Write a Bash script that displays `Best School` 10 times.
+
+Requirements:
+
+- You must use the until loop (`for` and `while` are forbidden)
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./3-until_best_school
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+
+```
+File: `3-until_best_school`
+
+4. If 9, say Hi!
+Write a Bash script that displays `Best School` 10 times, but for the 9th iteration, displays `Best School` and then `Hi` on a new line.
+
+Requirements:
+
+- You must use the `while` loop (`for` and `until` are forbidden)
+- You must use the `if` statement
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./4-if_9_say_hi
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Best School
+Hi
+Best School
+
+```
+File: `4-if_9_say_hi`
+
+
+
+
+
+
+
+
+
+### Shell-Check mandatory tasks
+Combined shell check for mandatory tasks:
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 1-for_best_school 
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 2-while_best_school
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 3-until_best_school 
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 4-if_9_say_hi
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 5-4_bad_luck_8_is_your_chance
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 6-superstitious_numbers 
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 7-clock
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 8-for_ls 
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 9-to_file_or_not_to_file
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 10-fizzbuzz 
+
+```
