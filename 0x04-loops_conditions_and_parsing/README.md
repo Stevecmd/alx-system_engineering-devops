@@ -559,6 +559,26 @@ mysql:106:/var/lib/mysql/
 ```
 File: `100-read_and_cut`
 
+12. Tell the story of passwd
+The file `/etc/passwd` has already been covered in a `previous project` and you should be familiar with it. Today we will make up a story based on it.
+
+Write a Bash script that displays the content of the file `/etc/passwd`, using the `while` loop + IFS.
+
+Format: `The user USERNAME is part of the GROUP_ID gang, lives in HOME_DIRECTORY and rides COMMAND/SHELL. USER ID's place is protected by the passcode PASSWORD, more info about the user here: USER ID INFO`
+
+Requirements:
+
+- You must use the `while` loop (`for` and `until` are forbidden)
+
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# shellcheck 101-tell_the_story_of_passwd
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./101-tell_the_story_of_passwd
+
+```
+File: `101-tell_the_story_of_passwd`
+
 
 ### Shell-Check mandatory tasks
 Combined shell check for mandatory tasks:
