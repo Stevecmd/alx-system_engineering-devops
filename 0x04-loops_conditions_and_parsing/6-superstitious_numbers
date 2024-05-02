@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# This script is displaying "Best School" 10 times
+# This script displays numbers from 1 to 20 and
+# specific messages for certain iterations
 
 counter=1
 
