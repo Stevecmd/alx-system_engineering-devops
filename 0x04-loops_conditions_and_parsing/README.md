@@ -204,12 +204,360 @@ Best School
 ```
 File: `4-if_9_say_hi`
 
+5. 4 bad luck, 8 is your chance
+Write a Bash script that loops from 1 to 10 and:
 
+- displays `bad luck` for the 4th loop iteration
+- displays `good luck` for the 8th loop iteration
+- displays `Best School` for the other iterations
 
+Requirements:
 
+- You must use the `while` loop (for and until are forbidden)
+- You must use the `if`, `elif` and `else` statements
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./5-4_bad_luck_8_is_your_chance
+Best School
+Best School
+Best School
+bad luck
+Best School
+Best School
+Best School
+good luck
+Best School
+Best School
 
+```
+
+File: `5-4_bad_luck_8_is_your_chance`
+
+6. Superstitious numbers
+Write a Bash script that displays numbers from 1 to 20 and:
+
+- displays `4` and then `bad luck from China` for the 4th loop iteration
+- displays `9` and then `bad luck from Japan` for the 9th loop iteration
+- displays `17` and then `bad luck from Italy` for the 17th loop iteration
+
+Requirements:
+
+- You must use the `while` loop (for and until are forbidden)
+- You must use the `case` statement
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./6-superstitious_numbers
+1
+2
+3
+4
+bad luck from China
+5
+6
+7
+8
+9
+bad luck from Japan
+10
+11
+12
+13
+14
+15
+16
+17
+bad luck from Italy
+18
+19
+20
+
+```
+File: `6-superstitious_numbers`
+
+7. Clock 
+
+Write a Bash script that displays the time for 12 hours and 59 minutes:
+
+- display hours from 0 to 12
+- display minutes from 1 to 59
+
+Requirements:
+
+- You must use the `while` loop (`for` and un`til are forbidden)
+
+Note that in this example, we only display the first 70 lines using the `head` command.
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./7-clock | head -n 70
+Hour: 0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+Hour: 1
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+```
+
+File: `7-clock`
+
+8. For ls
+
+Write a Bash script that displays:
+
+- The content of the current directory
+- In a list format
+- Where only the part of the name after the first dash is displayed (refer to the example)
+
+Requirements:
+
+- You must use the `for` loop (`while` and `until` are forbidden)
+- Do not display hidden files
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ls
+0-RSA_public_key.pub  1-for_best_school    4-if_9_say_hi                  7-clock                   bad_script
+100-read_and_cut      2-while_best_school  5-4_bad_luck_8_is_your_chance  8-for_ls                  good_script
+10-fizzbuzz           3-until_best_school  6-superstitious_numbers        9-to_file_or_not_to_file  README.md
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./8-for_ls
+RSA_public_key.pub
+read_and_cut
+fizzbuzz
+for_best_school
+while_best_school
+until_best_school
+if_9_say_hi
+4_bad_luck_8_is_your_chance
+superstitious_numbers
+clock
+for_ls
+to_file_or_not_to_file
+bad_script
+good_script
+README.md
+
+```
+
+File: `8-for_ls`
+
+9. To file, or not to file
+Write a Bash script that gives you information about the `school` file.
+
+Requirements:
+
+- You must use `if` and, `else` (`case` is forbidden)
+- Your Bash script should check if the file exists and print:
+
+        - if the file exists: `school file exists`
+        - if the file does not exist: `school file does not exist`
+- If the file exists, print:
+
+        - if the file is empty: `school file is empty`
+        - if the file is not empty: `school file is not empty`
+        - if the file is a regular file: `school is a regular file`
+        - if the file is not a regular file: (nothing)
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# file school
+school: cannot open `school' (No such file or directory)
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./9-to_file_or_not_to_file 
+school file does not exist
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# touch school
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./9-to_file_or_not_to_file 
+school file exists
+school file is empty
+school is a regular file
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# echo 'betty' > school
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./9-to_file_or_not_to_file 
+school file exists
+school file is not empty
+school is a regular file
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# rm school
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# mkdir school
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./9-to_file_or_not_to_file
+school file exists
+school file is not empty
+
+```
+File: `9-to_file_or_not_to_file`
+
+10. FizzBuzz
+Write a Bash script that displays numbers from 1 to 100.
+
+Requirements:
+
+- Displays `FizzBuzz` when the number is a multiple of 3 and 5
+- Displays `Fizz` when the number is multiple of 3
+- Displays `Buzz` when the number is a multiple of 5
+- Otherwise, displays the number
+- In a list format
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./10-fizzbuzz | head -20
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+17
+Fizz
+19
+Buzz
+
+```
+File: `10-fizzbuzz`
+
+11. Read and cut
+Write a Bash script that displays the content of the file `/etc/passwd`.
+
+Your script should only display:
+
+- username
+- user id
+- Home directory path for the user
+
+Requirements:
+
+- You must use the `while` loop (`for` and `until` are forbidden)
+
+```sh
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:101:101:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+systemd-network:x:102:103:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+systemd-resolve:x:103:104:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:104:105::/nonexistent:/usr/sbin/nologin
+sshd:x:105:65534::/run/sshd:/usr/sbin/nologin
+mysql:x:106:107:MySQL Server,,,:/var/lib/mysql/:/bin/false
+
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# chmod u+x 100-read_and_cut
+root@668e888f15e1:/alx-system_engineering-devops/0x04-loops_conditions_and_parsing# ./100-read_and_cut
+root:0:/root
+daemon:1:/usr/sbin
+bin:2:/bin
+sys:3:/dev
+sync:4:/bin
+games:5:/usr/games
+man:6:/var/cache/man
+lp:7:/var/spool/lpd
+mail:8:/var/mail
+news:9:/var/spool/news
+uucp:10:/var/spool/uucp
+proxy:13:/bin
+www-data:33:/var/www
+backup:34:/var/backups
+list:38:/var/list
+irc:39:/var/run/ircd
+gnats:41:/var/lib/gnats
+nobody:65534:/nonexistent
+_apt:100:/nonexistent
+systemd-timesync:101:/run/systemd
+systemd-network:102:/run/systemd
+systemd-resolve:103:/run/systemd
+messagebus:104:/nonexistent
+sshd:105:/run/sshd
+mysql:106:/var/lib/mysql/
+
+```
+File: `100-read_and_cut`
 
 
 ### Shell-Check mandatory tasks
