@@ -49,6 +49,6 @@ elif [ "$1" == "stop" ]; then
 elif [ "$1" == "restart" ]; then
     restart_process
 else
-    echo "Usage: $0 {start|stop|restart}"
+    echo "manage_my_process {start|stop|restart}"
     exit 1
 fi
