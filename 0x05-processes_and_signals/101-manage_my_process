@@ -22,6 +22,7 @@ start_process() {
     else
         ./manage_my_process.sh &
         echo $! > /var/run/my_process.pid
+        touch /tmp/my_process
         echo "manage_my_process started."
     fi
 }
