@@ -37,10 +37,21 @@ Requirements:
 - Display in a user-oriented format
 - Show process hierarchy
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./1-list_your_processes | head -50
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root       704  0.0  0.0   7236  3980 pts/2    Ss   03:03   0:00 /bin/bash
+root       760  0.0  0.0   6972  3428 pts/2    S+   03:13   0:00  \_ bash ./1-list_your_processes
+root       762  0.0  0.0   9128  3456 pts/2    R+   03:13   0:00  |   \_ ps -auxf
+root       761  0.0  0.0   5488   572 pts/2    S+   03:13   0:00  \_ head -50
+root       134  0.0  0.0   7236  3956 pts/1    Ss   May01   0:00 /bin/bash
+root       214  0.0  0.0  21852  9812 pts/1    S+   May01   0:00  \_ vi find3.py
+root        22  0.0  0.0   7236  4012 pts/0    Ss+  Apr29   0:00 /bin/bash
+root         1  0.0  0.0   6972  3312 ?        Ss   Apr29   0:00 /bin/bash /etc/sandbox_run.sh
+root        17  0.0  0.0  12172  6956 ?        S    Apr29   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
 
-
-
+```
 
 File: `1-list_your_processes`
 
@@ -52,12 +63,17 @@ Requirements:
 - You cannot use `pgrep`
 - The third line of your script must be `# shellcheck disable=SC2009`
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./2-show_your_bash_pid 
+root         1  0.0  0.0   6972  3312 ?        Ss   Apr29   0:00 /bin/bash /etc/sandbox_run.sh
+root        22  0.0  0.0   7236  4012 pts/0    Ss+  Apr29   0:00 /bin/bash
+root       134  0.0  0.0   7236  3956 pts/1    Ss   May01   0:00 /bin/bash
+root       704  0.0  0.0   7236  3980 pts/2    Ss   03:03   0:00 /bin/bash
+root       765  0.0  0.0   6972  3376 pts/2    S+   03:16   0:00 bash ./2-show_your_bash_pid
+root       767  0.0  0.0   6300   724 pts/2    S+   03:16   0:00 grep bash
 
-
-
-
-
+```
 
 File: `2-show_your_bash_pid`
 
@@ -68,10 +84,20 @@ Requirements:
 
 - You cannot use `ps`
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./3-show_your_bash_pid_made_easy 
+22 bash
+134 bash
+704 bash
+770 bash
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./3-show_your_bash_pid_made_easy 
+22 bash
+134 bash
+704 bash
+772 bash
 
-
-
+```
 
 Here we can see that:
 
@@ -87,11 +113,25 @@ Requirements:
 
 - In between each iteration of the loop, add a `sleep 2`
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./4-to_infinity_and_beyond 
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+^C
 
-
-
-
+```
 
 File: `4-to_infinity_and_beyond`
 
@@ -107,15 +147,28 @@ Requirements:
 
 Terminal #0
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./4-to_infinity_and_beyond 
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
 
+```
+Terminal #1
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./5-dont_stop_me_now 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# 
 
-
-
-
-
-
+```
 
 File: `5-dont_stop_me_now`
 
@@ -126,10 +179,32 @@ Requirements:
 
 - You cannot use `kill` or `killall`
 
+Terminal #0
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./4-to_infinity_and_beyond 
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+Terminated
 
+```
+Terminal #1
 
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./6-stop_me_if_you_can
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals#
+
+```
 
 File: `6-stop_me_if_you_can`
 
@@ -143,8 +218,29 @@ Write a Bash script that displays:
 
 Make a copy of your `6-stop_me_if_you_can` script, name it `67-stop_me_if_you_can`, that kills the `7-highlander` process instead of the `4-to_infinity_and_beyond` one.
 
+Terminal #0
+```sh
+sylvain@ubuntu$ ./7-highlander
+To infinity and beyond
+To infinity and beyond
+I am invincible!!!
+To infinity and beyond
+I am invincible!!!
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+I am invincible!!!
+To infinity and beyond
+^C
+```
 
-
+Terminal #1
+```sh
+sylvain@ubuntu$ ./67-stop_me_if_you_can 
+sylvain@ubuntu$ ./67-stop_me_if_you_can
+sylvain@ubuntu$ ./67-stop_me_if_you_can
+sylvain@ubuntu$ 
+```
 
 
 File: `7-highlander`
@@ -152,8 +248,23 @@ File: `7-highlander`
 8. Beheaded process
 Write a Bash script that kills the process `7-highlander`.
 
+Terminal #0
+```sh
+sylvain@ubuntu$ ./7-highlander 
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+Killed
+sylvain@ubuntu$ 
+```
+Terminal #1
+```sh
+sylvain@ubuntu$ ./8-beheaded_process
+sylvain@ubuntu$ 
 
-
+```
+File: `8-beheaded_process`
 
 
 
@@ -169,3 +280,21 @@ Write a Bash script that kills the process `7-highlander`.
 
 
 File: `8-beheaded_process`
+
+
+
+
+
+### Shellcheck checks
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# shellcheck 2-show_your_bash_pid 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# shellcheck 3-show_your_bash_pid_made_easy 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# shellcheck 4-to_infinity_and_beyond 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# shellcheck 5-dont_stop_me_now 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# shellcheck 6-stop_me_if_you_can 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# shellcheck 67-stop_me_if_you_can 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# shellcheck 7-highlander 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# shellcheck 8-beheaded_process 
+
+```

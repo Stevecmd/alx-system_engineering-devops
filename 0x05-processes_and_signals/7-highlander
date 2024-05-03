@@ -10,4 +10,3 @@ do
   sleep 2
   trap 'echo "I am invincible!!!"' SIGTERM
 done
-
