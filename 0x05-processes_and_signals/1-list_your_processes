@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Get the list of all processes with hierarchy
+
+ps -auxf
+
