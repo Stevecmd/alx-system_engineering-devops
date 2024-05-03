@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Manages daemons
+
+# Requirements:
+
+#     When passing the argument start:
+#         Starts manage_my_process
+#         Creates a file containing its PID in /var/run/my_process.pid
+#         Displays manage_my_process started
+#     When passing the argument stop:
+#         Stops manage_my_process
+#         Deletes the file /var/run/my_process.pid
+#         Displays manage_my_process stopped
+#     When passing the argument restart
+#         Stops manage_my_process
+#         Deletes the file /var/run/my_process.pid
+#         Starts manage_my_process
+#         Creates a file containing its PID in /var/run/my_process.pid
+#         Displays manage_my_process restarted
+#     Displays Usage: manage_my_process {start|stop|restart} if any other argument or no argument is passed
+
+start_process() {
+    if [ -f "/var/run/my_process.pid" ]; then
+        echo "manage_my_process is already running."
+    else
+        ./manage_my_process.sh &
+        echo $! > /var/run/my_process.pid
+        echo "manage_my_process started."
+    fi
+}
+
+stop_process() {
+    if [ -f "/var/run/my_process.pid" ]; then
+        pid=$(cat /var/run/my_process.pid)
+        kill "$pid"
+        rm /var/run/my_process.pid
+        echo "manage_my_process stopped."
+    else
+        echo "manage_my_process is not running."
+    fi
+}
+
+restart_process() {
+    stop_process
+    start_process
+    echo "manage_my_process restarted."
+}
+
+if [ "$1" == "start" ]; then
+    start_process
+elif [ "$1" == "stop" ]; then
+    stop_process
+elif [ "$1" == "restart" ]; then
+    restart_process
+else
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+fi

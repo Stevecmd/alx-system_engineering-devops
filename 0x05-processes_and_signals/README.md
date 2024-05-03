@@ -220,7 +220,7 @@ Make a copy of your `6-stop_me_if_you_can` script, name it `67-stop_me_if_you_ca
 
 Terminal #0
 ```sh
-sylvain@ubuntu$ ./7-highlander
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./7-highlander
 To infinity and beyond
 To infinity and beyond
 I am invincible!!!
@@ -236,10 +236,10 @@ To infinity and beyond
 
 Terminal #1
 ```sh
-sylvain@ubuntu$ ./67-stop_me_if_you_can 
-sylvain@ubuntu$ ./67-stop_me_if_you_can
-sylvain@ubuntu$ ./67-stop_me_if_you_can
-sylvain@ubuntu$ 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./67-stop_me_if_you_can 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./67-stop_me_if_you_can
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./67-stop_me_if_you_can
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# 
 ```
 
 
@@ -250,38 +250,135 @@ Write a Bash script that kills the process `7-highlander`.
 
 Terminal #0
 ```sh
-sylvain@ubuntu$ ./7-highlander 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./7-highlander 
 To infinity and beyond
 To infinity and beyond
 To infinity and beyond
 To infinity and beyond
 Killed
-sylvain@ubuntu$ 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# 
 ```
 Terminal #1
 ```sh
-sylvain@ubuntu$ ./8-beheaded_process
-sylvain@ubuntu$ 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# ./8-beheaded_process
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# 
 
 ```
 File: `8-beheaded_process`
 
+9. Process and PID file
+Write a Bash script that:
 
+- Creates the file `/var/run/myscript.pid` containing its PID
+- Displays `To infinity and beyond` indefinitely
+- Displays `I hate the kill command` when receiving a SIGTERM signal
+- Displays `Y U no love me?`! when receiving a SIGINT signal
+- Deletes the file `/var/run/myscript.pid` and terminates itself when receiving a SIGQUIT or SIGTERM signal
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./100-process_and_pid_file
+To infinity and beyond
+To infinity and beyond
 
+```
+Executing the `100-process_and_pid_file` script and killing it with `ctrl+c`.
 
+Terminal #0
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./100-process_and_pid_file
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+To infinity and beyond
+I hate the kill command
 
+```
+Terminal #1
 
+```sh
 
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo pkill -f 100-process_and_pid_file
 
+```
+Starting `100-process_and_pid_file` in the terminal #0 and then killing it in the terminal #1.
+File: `100-process_and_pid_file`
 
+10. Manage my process
 
-File: `8-beheaded_process`
+Programs that are detached from the terminal and running in the background are called daemons or processes, need to be managed. The general minimum set of instructions is: `start`, `restart` and `stop`. The most popular way of doing so on Unix system is to use the init scripts.
 
+Write a `manage_my_process` Bash script that:
 
+- Indefinitely writes `I am alive!` to the file `/tmp/my_process`
+- In between every `I am alive!` message, the program should pause for 2 seconds
+
+Write Bash (init) script `101-manage_my_process` that manages `manage_my_process`. (both files need to be pushed to git)
+
+Requirements:
+
+- When passing the argument `start`:
+        - Starts `manage_my_process`
+        - Creates a file containing its PID in /var/run/my_process.pid
+        - Displays `manage_my_process` started
+- When passing the argument stop:
+        - Stops `manage_my_process`
+        - Deletes the file /var/run/my_process.pid
+        - Displays `manage_my_process` stopped
+- When passing the argument restart
+        - Stops `manage_my_process`
+        - Deletes the file /var/run/my_process.pid
+        - Starts `manage_my_process`
+        - Creates a file containing its PID in /var/run/my_process.pid
+        - Displays `manage_my_process` restarted
+- Displays Usage: `manage_my_process` {start|stop|restart} if any other argument or no argument is passed
+
+Note that this init script is far from being perfect (but good enough for the sake of manipulating process and PID file), for example we do not handle the case where we check if a process is already running when doing `./101-manage_my_process start`, in our case it will simply create a new process instead of saying that it is already started.
+
+```sh
+
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process
+Usage: manage_my_process {start|stop|restart}
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process start
+manage_my_process started
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# tail -f -n0 /tmp/my_process 
+I am alive!
+I am alive!
+I am alive!
+I am alive!
+^C
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process stop
+manage_my_process stopped
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# cat /var/run/my_process.pid 
+cat: /var/run/my_process.pid: No such file or directory
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# tail -f -n0 /tmp/my_process 
+^C
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process start
+manage_my_process started
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# cat /var/run/my_process.pid 
+11864
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process restart
+manage_my_process restarted
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# cat /var/run/my_process.pid 
+11918
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# tail -f -n0 /tmp/my_process 
+I am alive!
+I am alive!
+I am alive!
+^C
+
+```
+
+File: `101-manage_my_process, manage_my_process`
 
 
 
