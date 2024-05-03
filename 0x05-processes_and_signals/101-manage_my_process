@@ -31,10 +31,9 @@ start_process() {
 
 stop_process() {
     if [ -f "/var/run/my_process.pid" ]; then
-        pid=$(cat /var/run/my_process.pid)
-        kill "$pid"
-        rm /var/run/my_process.pid
         echo "manage_my_process stopped."
+        kill "$(cat /var/run/my_process.pid)"
+        rm /var/run/my_process.pid
     else
         echo "manage_my_process is not running."
     fi
