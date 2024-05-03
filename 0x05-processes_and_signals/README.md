@@ -380,6 +380,60 @@ I am alive!
 
 File: `101-manage_my_process, manage_my_process`
 
+```sh
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process
+Usage: manage_my_process {start|stop|restart}
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process start
+manage_my_process started
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# tail -f -n0 /tmp/my_process 
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+^C
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process stop
+manage_my_process stopped
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# cat /var/run/my_process.pid
+cat: /var/run/my_process.pid: No such file or directory
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# tail -f -n0 /tmp/my_process
+^C
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process start
+manage_my_process started
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# cat /var/run/my_process.pid 
+4278
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# sudo ./101-manage_my_process restart
+manage_my_process restarted
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# cat /var/run/my_process.pid 
+4320
+root@668e888f15e1:/alx-system_engineering-devops/0x05-processes_and_signals# tail -f -n0 /tmp/my_process 
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+I am alive!
+tail: /tmp/my_process: file truncated
+I am alive!
+
+```
 
 
 ### Shellcheck checks
