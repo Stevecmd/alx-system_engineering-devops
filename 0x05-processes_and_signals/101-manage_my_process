@@ -16,50 +16,35 @@
 #         Displays manage_my_process restarted
 #     Displays Usage: manage_my_process {start|stop|restart} if any other argument or no argument is passed
 
-start_process() {
-    if [ -f "/var/run/my_process.pid" ]; then
-        echo "manage_my_process is already running."
-    else
-        ./manage_my_process &
-        pid=$!
-        echo $pid > /var/run/my_process.pid
-        touch /tmp/my_process
-        echo "manage_my_process started."
-        while true; do
-            echo "I am alive!" >> /tmp/my_process
-            sleep 2
-        done &
-        echo $! >> /var/run/my_process.pid
-    fi
-}
+if [ "${1}" == "start" ]
+# Starts manage_my_process
+then
+    ./manage_my_process &
+    touch /var/run/my_process.pid
+    echo "$!" > /var/run/my_process.pid
+    echo "manage_my_process started"
 
+elif [ "${1}" == "stop" ]
+# Stops manage_my_process
+then
+    echo "manage_my_process stopped"
+    kill "$(cat /var/run/my_process.pid)"
+    rm /var/run/my_process.pid
 
-stop_process() {
-    if [ -f "/var/run/my_process.pid" ]; then
-        echo "manage_my_process stopped."
-        while read -r pid; do
-            kill "$pid"
-        done < /var/run/my_process.pid
-        rm /var/run/my_process.pid
-        rm /tmp/my_process
-    else
-        echo "manage_my_process is not running."
-    fi
-}
+elif [ "${1}" == "restart" ]
+then
+# Stops manage_my_process
+    kill "$(cat /var/run/my_process.pid)"
+# Deletes the file /var/run/my_process.pid
+    rm /var/run/my_process.pid
+# Starts manage_my_process
+    ./manage_my_process &
+    touch /var/run/my_process.pid
+    echo "$!" > /var/run/my_process.pid
+# Displays manage_my_process restarted
+    echo "manage_my_process restarted"
 
-restart_process() {
-    stop_process
-    start_process
-    echo "manage_my_process restarted."
-}
-
-if [ "$1" == "start" ]; then
-    start_process
-elif [ "$1" == "stop" ]; then
-    stop_process
-elif [ "$1" == "restart" ]; then
-    restart_process
 else
+# Displays if any other argument or no argument is passed
     echo "Usage: manage_my_process {start|stop|restart}"
-    exit 1
 fi
