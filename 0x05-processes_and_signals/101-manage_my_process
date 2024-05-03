@@ -20,7 +20,7 @@ start_process() {
     if [ -f "/var/run/my_process.pid" ]; then
         echo "manage_my_process is already running."
     else
-        ./manage_my_process.sh &
+        ./manage_my_process &
         echo $! > /var/run/my_process.pid
         touch /tmp/my_process
         echo "manage_my_process started."
