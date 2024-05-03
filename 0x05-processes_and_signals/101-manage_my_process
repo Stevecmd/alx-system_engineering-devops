@@ -24,14 +24,22 @@ start_process() {
         echo $! > /var/run/my_process.pid
         touch /tmp/my_process
         echo "manage_my_process started."
+        while true; do
+            echo "I am alive!" >> /tmp/my_process
+            sleep 2
+        done &
+        echo $! >> /var/run/my_process.pid
     fi
 }
 
 stop_process() {
     if [ -f "/var/run/my_process.pid" ]; then
         echo "manage_my_process stopped."
-        kill "$(cat /var/run/my_process.pid)"
+        while read -r pid; do
+            kill "$pid"
+        done < /var/run/my_process.pid
         rm /var/run/my_process.pid
+        rm /tmp/my_process
     else
         echo "manage_my_process is not running."
     fi
