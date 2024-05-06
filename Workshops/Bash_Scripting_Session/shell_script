@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+echo "Executing the file $0"
+echo "Second argument $1"
+echo "The PID = $$"
+ls
+echo "Done executing the script."
