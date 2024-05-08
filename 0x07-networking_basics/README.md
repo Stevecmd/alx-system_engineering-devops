@@ -133,14 +133,14 @@ Let’s fill the empty parts in the drawing above.
 Questions:
 
    - Which statement is correct for the TCP box:
-      1. It is a protocol that is transferring data in a slow way but surely
-      2. It is a protocol that is transferring data in a fast way and might loss data along in the process
+      1. `It is a protocol that is transferring data in a slow way but surely`
+      2. `It is a protocol that is transferring data in a fast way and might loss data along in the process`
    - Which statement is correct for the UDP box:
-      1. It is a protocol that is transferring data in a slow way but surely
-      2. It is a protocol that is transferring data in a fast way and might loss data along in the process
+      1. `It is a protocol that is transferring data in a slow way but surely`
+      2. `It is a protocol that is transferring data in a fast way and might loss data along in the process`
    - Which statement is correct for the TCP worker:
-      1. Have you received boxes x, y, z?
-      2. May I increase the rate at which I am sending you boxes?
+      1. `Have you received boxes x, y, z?`
+      2. `May I increase the rate at which I am sending you boxes?`
 
 File: `3-UDP_and_TCP`
 
@@ -152,16 +152,16 @@ If we continue the comparison of a network device to your house, where IP addres
 
 While the full list of ports should not be memorized, it is important to know the most used ports, let’s start by remembering 3 of them:
 
-    22 for SSH
-    80 for HTTP
-    443 for HTTPS
+   - 22 for SSH
+   - 80 for HTTP
+   - 443 for HTTPS
 
-Note that a specific IP + port = socket.
+Note that a specific `IP + port = socket`.
 
 Write a Bash script that displays listening ports:
 
-    That only shows listening sockets
-    That shows the PID and name of the program to which each socket belongs
+   - That only shows listening sockets
+   - That shows the PID and name of the program to which each socket belongs
 > Install Netstat
 ```sh
 
@@ -197,6 +197,7 @@ Proto RefCnt Flags       Type       State         I-Node   PID/Program name     
 File: `4-TCP_and_UDP_ports`
 
 5. Is the host on the network
+
 The Internet Control Message Protocol (ICMP) is a protocol in the Internet protocol suite. It is used by network devices, to check if other network devices are available on the network. The command ping uses ICMP to make sure that a network device remains online or to troubleshoot issues on the network.
 
 Write a Bash script that pings an IP address passed as an argument.<br />
