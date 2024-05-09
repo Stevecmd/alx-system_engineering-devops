@@ -18,25 +18,25 @@ Write a Bash script that configures an Ubuntu server with the below requirements
 
 ```sh
 
-sylvain@ubuntu$ ping localhost
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ping localhost
 PING localhost (127.0.0.1) 56(84) bytes of data.
 64 bytes from localhost (127.0.0.1): icmp_seq=1 ttl=64 time=0.012 ms
 ^C
 --- localhost ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 0.012/0.012/0.012/0.000 ms
-sylvain@ubuntu$
-sylvain@ubuntu$ ping facebook.com
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ping facebook.com
 PING facebook.com (157.240.11.35) 56(84) bytes of data.
 64 bytes from edge-star-mini-shv-02-lax3.facebook.com (157.240.11.35): icmp_seq=1 ttl=63 time=15.4 ms
 ^C
 --- facebook.com ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 15.432/15.432/15.432/0.000 ms
-sylvain@ubuntu$
-sylvain@ubuntu$ sudo ./0-change_your_home_IP
-sylvain@ubuntu$
-sylvain@ubuntu$ ping localhost
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ sudo ./0-change_your_home_IP
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ping localhost
 PING localhost (127.0.0.2) 56(84) bytes of data.
 64 bytes from localhost (127.0.0.2): icmp_seq=1 ttl=64 time=0.012 ms
 64 bytes from localhost (127.0.0.2): icmp_seq=2 ttl=64 time=0.036 ms
@@ -44,8 +44,8 @@ PING localhost (127.0.0.2) 56(84) bytes of data.
 --- localhost ping statistics ---
 2 packets transmitted, 2 received, 0% packet loss, time 1000ms
 rtt min/avg/max/mdev = 0.012/0.024/0.036/0.012 ms
-sylvain@ubuntu$
-sylvain@ubuntu$ ping facebook.com
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ping facebook.com
 PING facebook.com (8.8.8.8) 56(84) bytes of data.
 64 bytes from facebook.com (8.8.8.8): icmp_seq=1 ttl=63 time=8.06 ms
 ^C
@@ -73,10 +73,10 @@ File: `0-change_your_home_IP`
 Write a Bash script that displays all active IPv4 IPs on the machine it’s executed on.
 ```sh
 
-sylvain@ubuntu$ ./1-show_attached_IPs | cat -e
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ./1-show_attached_IPs | cat -e
 10.0.2.15$
 127.0.0.1$
-sylvain@ubuntu$
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
 
 ```
 Obviously, the IPs displayed may be different depending on which machine you are running the script on.
@@ -84,3 +84,48 @@ Obviously, the IPs displayed may be different depending on which machine you are
 Note that we can see our `localhost` IP :)
 
 File: `1-show_attached_IPs`
+
+2. Port listening on localhost 
+
+Write a Bash script that listens on port `98` on `localhost`.
+
+<b>Terminal 0</b>
+
+Starting my script.
+
+```sh
+
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ sudo ./100-port_listening_on_localhost
+
+```
+<b>Terminal 1</b>
+
+Connecting to `localhost` on port `98` using `telnet` and typing some text.
+
+```sh
+
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ telnet localhost 98
+Trying 127.0.0.2...
+Connected to localhost.
+Escape character is '^]'.
+Hello world
+test
+
+```
+
+<b>Terminal 0</b>
+
+Receiving the text on the other side.
+```sh
+
+root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ sudo ./100-port_listening_on_localhost
+Hello world
+test
+
+```
+
+For the sake of the exercise, this connection is made entirely within localhost. This isn’t really exciting as is, but we can use this script across networks as well. Try running it between your local PC and your remote server for fun!
+
+As you can see, this can come in very handy in a multitude of situations. Maybe you’re debugging socket connection issues, or you’re trying to connect to a software and you are unsure if the issue is the software or the network, or you’re working on firewall rules… Another tool to add to your debugging toolbox!
+
+File: `100-port_listening_on_localhost`
