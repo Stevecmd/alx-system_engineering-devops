@@ -44,20 +44,20 @@ root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# sudo 
 root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2#
 root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# ping localhost
 PING localhost (127.0.0.2) 56(84) bytes of data.
-64 bytes from localhost (127.0.0.2): icmp_seq=1 ttl=64 time=0.012 ms
-64 bytes from localhost (127.0.0.2): icmp_seq=2 ttl=64 time=0.036 ms
+64 bytes from localhost (127.0.0.2): icmp_seq=1 ttl=64 time=0.014 ms
+64 bytes from localhost (127.0.0.2): icmp_seq=2 ttl=64 time=0.017 ms
 ^C
 --- localhost ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1000ms
-rtt min/avg/max/mdev = 0.012/0.024/0.036/0.012 ms
-root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2#
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 0.014/0.015/0.017/0.001 ms
 root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# ping facebook.com
 PING facebook.com (8.8.8.8) 56(84) bytes of data.
-64 bytes from facebook.com (8.8.8.8): icmp_seq=1 ttl=63 time=8.06 ms
+64 bytes from facebook.com (8.8.8.8): icmp_seq=1 ttl=55 time=1.71 ms
+64 bytes from facebook.com (8.8.8.8): icmp_seq=2 ttl=55 time=1.66 ms
 ^C
 --- facebook.com ping statistics ---
-1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 8.065/8.065/8.065/0.000 ms
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 1.663/1.685/1.708/0.022 ms
 
 ```
 
