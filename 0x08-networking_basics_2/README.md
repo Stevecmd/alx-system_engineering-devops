@@ -18,25 +18,31 @@ Write a Bash script that configures an Ubuntu server with the below requirements
 
 ```sh
 
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ping localhost
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# ping localhost
 PING localhost (127.0.0.1) 56(84) bytes of data.
-64 bytes from localhost (127.0.0.1): icmp_seq=1 ttl=64 time=0.012 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=1 ttl=64 time=0.018 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=2 ttl=64 time=0.034 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=3 ttl=64 time=0.018 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=4 ttl=64 time=0.020 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=5 ttl=64 time=0.037 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=6 ttl=64 time=0.016 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=7 ttl=64 time=0.025 ms
 ^C
 --- localhost ping statistics ---
-1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 0.012/0.012/0.012/0.000 ms
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ping facebook.com
+7 packets transmitted, 7 received, 0% packet loss, time 6140ms
+rtt min/avg/max/mdev = 0.016/0.024/0.037/0.007 ms
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2#
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# ping facebook.com
 PING facebook.com (157.240.11.35) 56(84) bytes of data.
 64 bytes from edge-star-mini-shv-02-lax3.facebook.com (157.240.11.35): icmp_seq=1 ttl=63 time=15.4 ms
 ^C
 --- facebook.com ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 15.432/15.432/15.432/0.000 ms
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ sudo ./0-change_your_home_IP
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ping localhost
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2#
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# sudo ./0-change_your_home_IP
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2#
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# ping localhost
 PING localhost (127.0.0.2) 56(84) bytes of data.
 64 bytes from localhost (127.0.0.2): icmp_seq=1 ttl=64 time=0.012 ms
 64 bytes from localhost (127.0.0.2): icmp_seq=2 ttl=64 time=0.036 ms
@@ -44,8 +50,8 @@ PING localhost (127.0.0.2) 56(84) bytes of data.
 --- localhost ping statistics ---
 2 packets transmitted, 2 received, 0% packet loss, time 1000ms
 rtt min/avg/max/mdev = 0.012/0.024/0.036/0.012 ms
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ping facebook.com
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2#
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# ping facebook.com
 PING facebook.com (8.8.8.8) 56(84) bytes of data.
 64 bytes from facebook.com (8.8.8.8): icmp_seq=1 ttl=63 time=8.06 ms
 ^C
@@ -73,10 +79,10 @@ File: `0-change_your_home_IP`
 Write a Bash script that displays all active IPv4 IPs on the machine it’s executed on.
 ```sh
 
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ ./1-show_attached_IPs | cat -e
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# ./1-show_attached_IPs | cat -e
 10.0.2.15$
 127.0.0.1$
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2#
 
 ```
 Obviously, the IPs displayed may be different depending on which machine you are running the script on.
@@ -95,7 +101,7 @@ Starting my script.
 
 ```sh
 
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ sudo ./100-port_listening_on_localhost
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# sudo ./100-port_listening_on_localhost
 
 ```
 <b>Terminal 1</b>
@@ -104,7 +110,7 @@ Connecting to `localhost` on port `98` using `telnet` and typing some text.
 
 ```sh
 
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ telnet localhost 98
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# telnet localhost 98
 Trying 127.0.0.2...
 Connected to localhost.
 Escape character is '^]'.
@@ -118,7 +124,7 @@ test
 Receiving the text on the other side.
 ```sh
 
-root@b41e97c26813:/alx-system_engineering-devops/0x07-networking_basics$ sudo ./100-port_listening_on_localhost
+root@b41e97c26813:/alx-system_engineering-devops/0x08-networking_basics_2# sudo ./100-port_listening_on_localhost
 Hello world
 test
 
