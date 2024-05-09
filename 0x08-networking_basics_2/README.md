@@ -129,3 +129,13 @@ For the sake of the exercise, this connection is made entirely within localhost.
 As you can see, this can come in very handy in a multitude of situations. Maybe you’re debugging socket connection issues, or you’re trying to connect to a software and you are unsure if the issue is the software or the network, or you’re working on firewall rules… Another tool to add to your debugging toolbox!
 
 File: `100-port_listening_on_localhost`
+
+#### Extra:
+To write into a file, put your content within EOF as shown below:
+```sh
+
+cat > 0-change_your_home_IP <<EOF
+#!/usr/bin/env bash
+EOF
+
+```
