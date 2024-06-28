@@ -4,11 +4,17 @@
 #  using pip3 at the specified version (2.1.0).
 #
 # Requirements:
-# - Install Flask
-# - Flask version must be 2.1.0
+# - Install Flask version 2.1.0
+# - Install Werkzeug version 2.1.1
 
-# Define the package resource
+# Define the package resource for Flask
 package { 'Flask':
   ensure   => '2.1.0',
+  provider => 'pip3',
+}
+
+# Define the package resource for Werkzeug
+package { 'Werkzeug':
+  ensure   => '2.1.1',
   provider => 'pip3',
 }
