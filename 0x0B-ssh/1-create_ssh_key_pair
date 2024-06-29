@@ -9,6 +9,6 @@ fi
 echo "Generating an RSA key pair with a 4096-bit key length, named 'school', protected by a passphrase."
 
 # Generate an RSA key pair with the specified requirements
-ssh-keygen -t rsa -b 4096 -f school -N betty
+ssh-keygen -b 4096 -f school -N betty
 
 echo "RSA key pair generated successfully."
