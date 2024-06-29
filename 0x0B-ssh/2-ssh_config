@@ -1,0 +1,6 @@
+# This configuration applies to all SSH connections
+Host *
+    # Disables password authentication, enhancing security by requiring key-based authentication
+    PasswordAuthentication no
+    # Specifies the private key file to be used for SSH authentication
+    IdentifyFile ~/.ssh/school
