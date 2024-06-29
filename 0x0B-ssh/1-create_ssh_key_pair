@@ -1,9 +1,14 @@
 #!/bin/bash
 
-# Generate an RSA key pair with the following requirements:
-# - Name of the created private key: school
-# - Number of bits: 4096
-# - Passphrase: betty
+# Check if the private key file already exists
+if [ -f "school" ]; then
+  echo "Error: The file 'school' already exists. Please remove it manually if you want to regenerate the key pair."
+  exit 1
+fi
 
-# Generating the RSA key pair
-ssh-keygen -b 4096 -f school -N betty
+echo "Generating an RSA key pair with a 4096-bit key length, named 'school', protected by a passphrase."
+
+# Generate an RSA key pair with the specified requirements
+ssh-keygen -t rsa -b 4096 -f school -N betty
+
+echo "RSA key pair generated successfully."
