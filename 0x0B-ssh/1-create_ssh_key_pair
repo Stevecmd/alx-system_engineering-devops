@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Check if the private key file already exists
 if [ -f "school" ]; then
