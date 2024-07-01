@@ -2,7 +2,7 @@
 
 # Check if the number of arguments is less than 4
 if [ "$#" -lt 4 ]; then
-    echo "Usage: $0 PATH_TO_FILE SERVER_IP USERNAME SSH_KEY_PATH"
+    echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
     exit 1
 fi
 
