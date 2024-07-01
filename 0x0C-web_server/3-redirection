@@ -23,5 +23,3 @@ sudo nginx -t
 
 # Reload Nginx to apply the changes
 sudo service nginx reload
-
-echo "Nginx has been configured to redirect /redirect_me to another page with a 301 Moved Permanently status."
