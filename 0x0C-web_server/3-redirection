@@ -1,1 +1,26 @@
 #!/usr/bin/env bash
+
+# Update package list and install Nginx
+sudo apt update
+sudo apt install -y nginx
+
+# Allowing Nginx HTTP through the firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Giving user ownership rights to website files
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# Start Nginx to ensure it's running
+sudo service nginx start
+
+# Modify the default Nginx site configuration for redirection
+sudo sed -i '/server_name _;/a location /redirect_me {\n\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n}' /etc/nginx/sites-available/default
+
+# Test the configuration for syntax errors
+sudo nginx -t
+
+# Reload Nginx to apply the changes
+sudo service nginx reload
+
+echo "Nginx has been configured to redirect /redirect_me to another page with a 301 Moved Permanently status."
