@@ -6,21 +6,21 @@ if [ "$#" -lt 4 ]; then
     exit 1
 fi
 
-# Assign arguments to variables with descriptive names
-file_to_transfer="$1"
-server_ip="$2"
-username="$3"
-ssh_key_path="$4"
+# Assign arguments to variables
+file="$1"
+server="$2"
+user="$3"
+key="$4"
 
 # Check if the SSH key file exists and is readable
-if [ ! -f "$ssh_key_path" ] || [ ! -r "$ssh_key_path" ]; then
-    echo "Error: SSH key file '$ssh_key_path' does not exist or is not readable."
+if [ ! -f "$key" ] || [ ! -r "$key" ]; then
+    echo "Error: SSH key file '$key' does not exist or is not readable."
     exit 2
 fi
 
-# Transfer the file using scp with strict host key checking disabled
-if scp -i "$ssh_key_path" -o StrictHostKeyChecking=no "$file_to_transfer" "${username}@${server_ip}:~/"; then
-    echo "File '$file_to_transfer' successfully transferred to ${username}@${server_ip}."
+# Transfer the file
+if scp -i "$key" -o StrictHostKeyChecking=no "$file" "${user}@${server}:~/"; then
+    echo "File '$file' successfully transferred to ${user}@${server}."
 else
     echo "Error: Failed to transfer file."
     exit 3
