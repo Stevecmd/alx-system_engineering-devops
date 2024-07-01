@@ -2,17 +2,14 @@
 # Script to automate the installation and configuration of Nginx.
 
 # Update and install nginx
-apt-get update
-apt-get install -y nginx
+apt-get -y update
+apt-get -y install nginx
 
 # Allow incoming HTTP traffic through firewall
-# sudo ufw allow 'Nginx HTTP'
-
-# Configure nginx to serve a custom page
-# echo "Configuring Nginx to serve a custom page..."
+sudo ufw allow 'Nginx HTTP'
 
 # Create a custom HTML file
 echo "Hello World!" > /var/www/html/index.html
 
 # Start the Nginx service
-/etc/init.d/nginx restart
+service nginx start
