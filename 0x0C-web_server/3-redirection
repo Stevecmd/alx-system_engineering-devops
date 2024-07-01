@@ -1,39 +1,27 @@
 #!/usr/bin/env bash
-# Script to configure Nginx to redirect /redirect_me to another page with a 301 Moved Permanently status.
+# Script to create redirection must be a “301 Moved Permanently” status on a page.
 
 # Update package list and install Nginx
-apt-get update
-apt-get -y install nginx
+sudo apt update
+sudo apt install -y nginx
 
 # Allowing Nginx HTTP through the firewall
 sudo ufw allow 'Nginx HTTP'
 
-# Create directory for the content
-sudo mkdir -p /var/www/html/
-
-# Set permissions for the content
+# Giving user ownership rights to website files
+sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www
 
-# Create the basic index.html page
-echo 'Hello World!' | sudo tee /var/www/html/index.html
+# Start Nginx to ensure it's running
+sudo service nginx start
 
-# Create a custom server configuration with redirection
-SERVER_CONFIGURATION="server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
-    server_name _;
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-}"
+# Modify the default Nginx site configuration for redirection
+sudo sed -i '/server_name _;/a location /redirect_me {\n\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n}' /etc/nginx/sites-available/default
 
-# Set the Nginx server configuration
-echo "$SERVER_CONFIGURATION" | sudo tee /etc/nginx/sites-available/default
+# Test the configuration for syntax errors
+sudo nginx -t
 
-# Restart Nginx to apply changes
-sudo service nginx restart
+# Reload Nginx to apply the changes
+sudo service nginx reload
+
+echo "Nginx has been configured to redirect /redirect_me to another page with a 301 Moved Permanently status."
