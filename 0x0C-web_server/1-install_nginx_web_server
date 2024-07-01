@@ -2,8 +2,8 @@
 # Script to automate the installation and configuration of Nginx.
 
 # Update and install nginx
-sudo apt-get -y update
-sudo apt-get install -y nginx
+apt-get update
+apt-get install -y nginx
 
 # Allow incoming HTTP traffic through firewall
 # sudo ufw allow 'Nginx HTTP'
