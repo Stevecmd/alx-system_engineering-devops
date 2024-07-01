@@ -3,10 +3,10 @@
 
 # Update and install nginx
 sudo apt-get -y update
-sudo apt-get -y install nginx
+sudo apt-get install -y nginx
 
 # Allow incoming HTTP traffic through firewall
-sudo ufw allow 'Nginx HTTP'
+# sudo ufw allow 'Nginx HTTP'
 
 # Configure nginx to serve a custom page
 # echo "Configuring Nginx to serve a custom page..."
@@ -15,4 +15,4 @@ sudo ufw allow 'Nginx HTTP'
 echo "Hello World!" > /var/www/html/index.html
 
 # Start the Nginx service
-sudo service nginx start
+/etc/init.d/nginx restart
