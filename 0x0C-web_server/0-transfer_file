@@ -7,10 +7,10 @@ if [ "$#" -lt 4 ]; then
 fi
 
 # Assign arguments to variables
-file="$1"
-server="$2"
-user="$3"
-key="$4"
+PATH_TO_FILE="$1"
+IP="$2"
+USERNAME="$3"
+PATH_TO_SSH_KEY="$4"
 
 # Check if the SSH key file exists and is readable
 if [ ! -f "$key" ] || [ ! -r "$key" ]; then
@@ -19,9 +19,4 @@ if [ ! -f "$key" ] || [ ! -r "$key" ]; then
 fi
 
 # Transfer the file
-if scp -i "$key" -o StrictHostKeyChecking=no "$file" "${user}@${server}:~/"; then
-    echo "File '$file' successfully transferred to ${user}@${server}."
-else
-    echo "Error: Failed to transfer file."
-    exit 3
-fi
+scp -i "$PATH_TO_SSH_KEY" -o StrictHostKeyChecking=no "$PATH_TO_FILE" "$USERNAME"@"$IP":~/
