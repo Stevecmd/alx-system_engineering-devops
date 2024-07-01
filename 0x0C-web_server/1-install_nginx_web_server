@@ -9,10 +9,10 @@ sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
 
 # Configure nginx to serve a custom page
-echo "Configuring Nginx to serve a custom page..."
+# echo "Configuring Nginx to serve a custom page..."
 
 # Create a custom HTML file
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+echo "Hello World!" > /var/www/html/index.html
 
 # Start the Nginx service
 sudo service nginx start
