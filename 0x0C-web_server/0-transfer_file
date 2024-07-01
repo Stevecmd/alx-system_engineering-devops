@@ -12,11 +12,5 @@ IP="$2"
 USERNAME="$3"
 PATH_TO_SSH_KEY="$4"
 
-# Check if the SSH key file exists and is readable
-if [ ! -f "$key" ] || [ ! -r "$key" ]; then
-    echo "Error: SSH key file '$key' does not exist or is not readable."
-    exit 2
-fi
-
 # Transfer the file
 scp -i "$PATH_TO_SSH_KEY" -o StrictHostKeyChecking=no "$PATH_TO_FILE" "$USERNAME"@"$IP":~/
