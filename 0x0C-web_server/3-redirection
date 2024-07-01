@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Script to create redirection must be a “301 Moved Permanently” status on a page.
 
 # Update package list and install Nginx
 sudo apt update
