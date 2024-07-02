@@ -1,6 +1,6 @@
-# Install and configure an Nginx server using Puppet
+# Install Nginx web server (w/ Puppet)
 
-# Ensure the system is updated
+# Ensure the system is updated if needed
 exec { 'update system':
   command => '/usr/bin/apt-get update',
   path    => ['/usr/bin', '/bin'],
@@ -9,8 +9,8 @@ exec { 'update system':
 
 # Install Nginx package
 package { 'nginx':
-  ensure   => installed,
-  require  => Exec['update system'],
+  ensure  => installed,
+  require => Exec['update system'],
 }
 
 # Ensure the firewall allows HTTP traffic
@@ -41,7 +41,7 @@ file { '/var/www/html/index.html':
   require => Package['nginx'],
 }
 
-# Configure Nginx default site
+# Configure Nginx to redirect /redirect_me
 file { '/etc/nginx/sites-available/default':
   ensure  => file,
   content => template('nginx/default.erb'),
@@ -54,12 +54,12 @@ file { '/etc/nginx/sites-available/default':
 
 # Ensure Nginx service is running and enabled
 service { 'nginx':
-  ensure     => running,
-  enable     => true,
-  require    => File['/etc/nginx/sites-available/default'],
+  ensure  => running,
+  enable  => true,
+  require => File['/etc/nginx/sites-available/default'],
 }
 
-# Custom template for Nginx configuration
+# Custom template for Nginx configuration, including redirect
 file { '/etc/puppetlabs/code/environments/production/modules/nginx/templates/default.erb':
   ensure  => file,
   content => @(EOF)
