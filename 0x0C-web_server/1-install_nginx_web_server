@@ -5,6 +5,9 @@
 apt-get update
 apt-get -y install nginx
 
+# Start nginx service
+sudo service nginx start
+
 # Allow incoming HTTP traffic through firewall
 sudo ufw allow 'Nginx HTTP'
 
