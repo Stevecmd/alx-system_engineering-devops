@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script to create redirection must be a “301 Moved Permanently” status on a page.
+# Script to create a redirection with a “301 Moved Permanently” status on a page.
 
 # Update package list and install Nginx
 sudo apt update
@@ -13,7 +13,7 @@ sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www
 
 # Backup the default index
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
 # Creating a new index page
 echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
@@ -22,7 +22,10 @@ echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
 sudo service nginx start
 
 # Modify the default Nginx site configuration for redirection
-sudo sed -i '/server_name _;/a location /redirect_me {\n\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n}' /etc/nginx/sites-available/default
+sudo sed -i '/server_name _;/a\\
+    location /redirect_me {\\
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\\
+    }' /etc/nginx/sites-available/default
 
 # Test the configuration for syntax errors
 sudo nginx -t
