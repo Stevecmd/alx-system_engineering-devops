@@ -12,6 +12,12 @@ sudo ufw allow 'Nginx HTTP'
 sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www
 
+# Backup the default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Creating a new index page
+echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
+
 # Start Nginx to ensure it's running
 sudo service nginx start
 
@@ -21,5 +27,5 @@ sudo sed -i '/server_name _;/a location /redirect_me {\n\treturn 301 https://www
 # Test the configuration for syntax errors
 sudo nginx -t
 
-# Reload Nginx to apply the changes
-sudo service nginx reload
+# Restart Nginx to apply the changes
+sudo service nginx restart
