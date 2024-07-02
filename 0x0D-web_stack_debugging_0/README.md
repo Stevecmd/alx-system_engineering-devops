@@ -112,3 +112,34 @@ Hello Holberton
 After connecting to the container and fixing whatever needed to be fixed (here is your mission), you can see that curling port 80 return a page that contains `Hello Holberton`. Paste the command(s) you used to fix the issue in your answer file.
 
 File: `0-give_me_a_page`
+
+[Docker Installation instructions](https://docs.docker.com/engine/install/ubuntu/)
+
+Debugging:
+
+```sh
+
+stevecmd@DESKTOP-UTB295U:~$ sudo docker exec 7c6138ac6b22 service nginx status
+nginx: unrecognized service
+stevecmd@DESKTOP-UTB295U:~$ sudo docker exec 7c6138ac6b22 service apache status
+apache: unrecognized service
+stevecmd@DESKTOP-UTB295U:~$ sudo docker exec 7c6138ac6b22 which nginx
+stevecmd@DESKTOP-UTB295U:~$ sudo docker exec 7c6138ac6b22 which apache2
+/usr/sbin/apache2
+stevecmd@DESKTOP-UTB295U:~$ sudo docker exec 7c6138ac6b22 ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0  18172  3164 pts/0    Ss+  03:20   0:00 /bin/bash
+root          50  4.0  0.0  15572  2076 ?        Rs   03:29   0:00 ps aux
+stevecmd@DESKTOP-UTB295U:~$ sudo docker exec 7c6138ac6b22 apache2ctl -D FOREGROUND
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+^Ccontext canceled
+stevecmd@DESKTOP-UTB295U:~$ sudo docker exec 7c6138ac6b22 netstat -tuln
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN
+stevecmd@DESKTOP-UTB295U:~$ curl http://localhost:8080
+Hello Holberton
+stevecmd@DESKTOP-UTB295U:~$ curl http://127.0.0.1:8080
+Hello Holberton
+
+```
