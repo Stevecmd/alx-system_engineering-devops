@@ -1,37 +1,18 @@
-# Install Nginx web server (w/ Puppet)
+# Install and configure Nginx to meet specific requirements
 
-# Ensure the system is updated if needed
+# Ensure the system is updated
 exec { 'update system':
   command => '/usr/bin/apt-get update',
   path    => ['/usr/bin', '/bin'],
-  unless  => 'test -f /var/lib/apt/periodic/update-success-stamp',
 }
 
-# Install Nginx package
+# Install Nginx
 package { 'nginx':
   ensure  => installed,
   require => Exec['update system'],
 }
 
-# Ensure the firewall allows HTTP traffic
-exec { 'allow nginx http':
-  command => '/usr/sbin/ufw allow "Nginx HTTP"',
-  path    => ['/usr/sbin', '/usr/bin', '/bin'],
-  unless  => '/usr/sbin/ufw status | grep -q "Nginx HTTP.*ALLOW IN"',
-  require => Package['nginx'],
-}
-
-# Create a custom 404 page
-file { '/var/www/html/custom_404.html':
-  ensure  => file,
-  content => "Ceci n'est pas une page",
-  owner   => 'www-data',
-  group   => 'www-data',
-  mode    => '0644',
-  require => Package['nginx'],
-}
-
-# Create the index.html file with the required content
+# Create the index.html file with "Hello World!"
 file { '/var/www/html/index.html':
   ensure  => file,
   content => 'Hello World!',
@@ -41,10 +22,26 @@ file { '/var/www/html/index.html':
   require => Package['nginx'],
 }
 
-# Configure Nginx to redirect /redirect_me
+# Configure Nginx to listen on port 80 and redirect /redirect_me with a 301
 file { '/etc/nginx/sites-available/default':
   ensure  => file,
-  content => template('nginx/default.erb'),
+  content => @(EOF)
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}
+  | EOF
   owner   => 'root',
   group   => 'root',
   mode    => '0644',
@@ -57,40 +54,4 @@ service { 'nginx':
   ensure  => running,
   enable  => true,
   require => File['/etc/nginx/sites-available/default'],
-}
-
-# Custom template for Nginx configuration, including redirect
-file { '/etc/puppetlabs/code/environments/production/modules/nginx/templates/default.erb':
-  ensure  => file,
-  content => @(EOF)
-/**
- * Nginx default server configuration file
- */
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
-
-    server_name _;
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    error_page 404 /custom_404.html;
-    location = /custom_404.html {
-        internal;
-    }
-}
-  | EOF
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
-  require => Package['nginx'],
 }
