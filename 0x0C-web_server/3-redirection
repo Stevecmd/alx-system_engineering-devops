@@ -22,10 +22,14 @@ echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
 sudo service nginx start
 
 # Modify the default Nginx site configuration for redirection
-sudo sed -i '/server_name _;/a\\
-    location /redirect_me {\\
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\\
-    }' /etc/nginx/sites-available/default
+# sudo sed -i '/server_name _;/a\\
+#     location /redirect_me {\\
+#         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\\
+#     }' /etc/nginx/sites-available/default
+# Configure Nginx to redirect /redirect_me to another page with 301 status
+echo "Configuring Nginx redirection..."
+sudo sed -i '/server_name _;/a location /redirect_me {\n\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n}' /etc/nginx/sites-available/default
+
 
 # Test the configuration for syntax errors
 sudo nginx -t
