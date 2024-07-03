@@ -18,12 +18,9 @@ file { '/var/www/html/index.html':
 }
 
 # Configure the Redirect page
-exec { 'insert_redirect':
-  command => "sed -i '/rewrite ^\\/redirect_me https:\\/\\/www.youtube.com\\/watch?v=QH2-TGUlwu4 permanent;/!24i\\rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default",
-  unless  => "grep -q 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default",
-  provider => shell,
-  require => Package['nginx'],
-  notify  => Service['nginx'],
+exec {'redirect_me':
+	command => 'sed -i "24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default',
+	provider => 'shell'
 }
 
 # Configure Nginx
