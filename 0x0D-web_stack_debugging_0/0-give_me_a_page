@@ -16,6 +16,3 @@ if service apache2 status; then
 else
     echo "apache2 is not running"
 fi
-
-# Serve "Hello Holberton" page
-echo "Hello Holberton" > /var/www/html/index.html
