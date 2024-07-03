@@ -20,8 +20,8 @@ apt-get install -y apache2
 # Start Apache2
 service apache2 start
 
-# Output the status of Apache2
-if service apache2 status > /dev/null; then
+# Correctly output the status of Apache2
+if service apache2 status; then
     echo "apache2 is running"
 else
     echo "apache2 is not running"
