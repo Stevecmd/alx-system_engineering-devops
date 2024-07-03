@@ -12,7 +12,10 @@ service apache2 start
 
 # Check if Apache2 is running and output the required message
 if service apache2 status; then
-    echo "Hello Holberton"
+    echo "apache2 is running"
 else
     echo "apache2 is not running"
 fi
+
+# Serve "Hello Holberton" page
+echo "Hello Holberton" > /var/www/html/index.html
