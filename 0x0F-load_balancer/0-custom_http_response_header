@@ -12,7 +12,7 @@ function install() {
     else
         echo -e "    ${1} is already installed.\n"
     fi
-} # This closing brace was missing
+}
 install nginx # Install nginx if not already installed
 
 echo -e "\nSetting up some minor stuff.\n"
