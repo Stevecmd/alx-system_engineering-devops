@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2154
+
+# Installs nginx on my server
+apt-get update
+apt-get install -y nginx
+
+# Create directories and files
+mkdir -p /var/www/test/html
+touch /var/www/test/html/index.html
+echo "Hello World!" > /var/www/test/html/index.html
+touch /var/www/test/html/404.html
+echo "Ceci n'est pas une page" > /var/www/test/html/404.html
+
+# Configure Nginx
+cat <<EOF | tee /etc/nginx/sites-available/default > /dev/null
+server {
+    listen      80;
+    listen      [::]:80;
+    add_header  X-Served-By \$HOSTNAME;
+    root        /var/www/test/html;
+    index       index.html index.htm;
+
+    location /redirect_me {
+        return 301 'https://www.youtube.com/watch?v=QH2-TGUlwu4';
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root /var/www/test/html;
+        internal;
+    }
+}
+EOF
+
+# Check Nginx configuration and restart Nginx service if configuration is valid
+if nginx -t; then
+    service nginx restart
+else
+    echo "Nginx configuration test failed. Please check configuration."
+fi
