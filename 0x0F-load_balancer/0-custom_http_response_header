@@ -3,22 +3,20 @@
 # shellcheck disable=SC2154
 
 # Installs nginx on my server
-apt-get update
-apt-get install -y nginx
+sudo apt-get update
+sudo apt-get install -y nginx || { echo "Failed to install Nginx. Exiting."; exit 1; }
 
 # Create directories and files
-mkdir -p /var/www/test/html
-touch /var/www/test/html/index.html
-echo "Hello World!" > /var/www/test/html/index.html
-touch /var/www/test/html/404.html
-echo "Ceci n'est pas une page" > /var/www/test/html/404.html
+sudo mkdir -p /var/www/test/html
+echo "Hello World!" | sudo tee /var/www/test/html/index.html > /dev/null
+echo "Ceci n'est pas une page" | sudo tee /var/www/test/html/404.html > /dev/null
 
 # Configure Nginx
-cat <<EOF | tee /etc/nginx/sites-available/default > /dev/null
+cat <<EOF | sudo tee /etc/nginx/sites-available/default > /dev/null
 server {
     listen      80;
     listen      [::]:80;
-    add_header  X-Served-By \$HOSTNAME;
+    add_header  X-Served-By "\$HOSTNAME";
     root        /var/www/test/html;
     index       index.html index.htm;
 
@@ -35,8 +33,9 @@ server {
 EOF
 
 # Check Nginx configuration and restart Nginx service if configuration is valid
-if nginx -t; then
-    service nginx restart
+if sudo nginx -t; then
+    sudo systemctl restart nginx
 else
     echo "Nginx configuration test failed. Please check configuration."
+    exit 1
 fi
