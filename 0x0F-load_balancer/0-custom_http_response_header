@@ -1,24 +1,56 @@
 #!/usr/bin/env bash
 
-# shellcheck disable=SC2154
+echo -e "Updating and doing some minor checks...\n"
 
-# Installs nginx on my server
-sudo apt-get update
-sudo apt-get install -y nginx || { echo "Failed to install Nginx. Exiting."; exit 1; }
+function install() {
+    command -v "$1" &> /dev/null
+    if ! command -v "$1" &> /dev/null; then
+        echo -e "    Installing: $1\n"
+        sudo apt-get update -y -qq && \
+            sudo apt-get install -y "$1" -qq
+        echo -e "\n"
+    else
+        echo -e "    ${1} is already installed.\n"
+    fi
+} # This closing brace was missing
+install nginx # Install nginx if not already installed
 
-# Create directories and files
-sudo mkdir -p /var/www/test/html
-echo "Hello World!" | sudo tee /var/www/test/html/index.html > /dev/null
-echo "Ceci n'est pas une page" | sudo tee /var/www/test/html/404.html > /dev/null
+echo -e "\nSetting up some minor stuff.\n"
 
-# Configure Nginx
-cat <<EOF | sudo tee /etc/nginx/sites-available/default > /dev/null
-server {
+# Allowing nginx on firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Give the user ownership to website files for easy editing
+if [ -d "/var/www" ]; then
+    sudo chown -R "$USER":"$USER" /var/www
+    sudo chmod -R 755 /var/www
+else
+    sudo mkdir -p /var/www
+    sudo chown -R "$USER":"$USER" /var/www
+    sudo chmod -R 755 /var/www
+fi
+
+# Create directories if not present
+for dir in /var/www/test/html /var/www/test/error; do
+    if ! [ -d "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+done
+
+# Creating new index and error page
+echo "Hello World!" > /var/www/test/html/index.html
+echo "Ceci n'est pas une page" > /var/www/test/html/404.html
+
+# Backup default server config file
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
+
+server_config="server {
     listen      80;
     listen      [::]:80;
-    add_header  X-Served-By "\$HOSTNAME";
     root        /var/www/test/html;
     index       index.html index.htm;
+    server_name _;
+    add_header  X-Served-By \$hostname;
 
     location /redirect_me {
         return 301 'https://www.youtube.com/watch?v=QH2-TGUlwu4';
@@ -29,13 +61,18 @@ server {
         root /var/www/test/html;
         internal;
     }
-}
-EOF
+}"
 
-# Check Nginx configuration and restart Nginx service if configuration is valid
-if sudo nginx -t; then
-    sudo systemctl restart nginx
+echo "$server_config" | sudo dd status=none of=/etc/nginx/sites-available/default
+
+# Enable the configuration if it's not already linked
+if [ ! -L /etc/nginx/sites-enabled/default ]; then
+    sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+fi
+
+# Check if Nginx is running and start or restart it accordingly
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+    sudo systemctl start nginx
 else
-    echo "Nginx configuration test failed. Please check configuration."
-    exit 1
+    sudo systemctl restart nginx
 fi
