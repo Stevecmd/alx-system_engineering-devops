@@ -1,42 +1,65 @@
 # Puppet script to configure a new Ubuntu server with Nginx and a custom HTTP header
 
-# Update the system's package list
-exec { 'update system':
-  command => '/usr/bin/apt-get update',
-}
-
-# Ensure Nginx is installed
+# Install nginx package
 package { 'nginx':
-  ensure  => 'installed',
-  require => Exec['update system'], # Depends on system update
+  ensure => installed,
 }
 
-# Create a simple index.html file in the web root
-file {'/var/www/html/index.html':
-  ensure  => file,
-  content => 'Hello World!', # Content of the index.html file
+# Ensure the necessary directories exist
+file { '/var/www/test/html':
+  ensure => directory,
+  owner  => 'www-data',
+  group  => 'www-data',
+  mode   => '0755',
 }
 
-# Configure Nginx to use a custom site configuration with a custom HTTP header
-file {'/etc/nginx/sites-available/default':
+# Create index.html
+file { '/var/www/test/html/index.html':
   ensure  => file,
-  content => '
+  content => 'Hello World!',
+  owner   => 'www-data',
+  group   => 'www-data',
+  mode    => '0644',
+}
+
+# Create 404.html
+file { '/var/www/test/html/404.html':
+  ensure  => file,
+  content => "Ceci n'est pas une page",
+  owner   => 'www-data',
+  group   => 'www-data',
+  mode    => '0644',
+}
+
+# Configure Nginx directly in the manifest
+file { '/etc/nginx/sites-available/default':
+  ensure  => file,
+  content => @("EOF"),
 server {
-    listen 80;
-    server_name _;
-    location / {
-        root /var/www/html;
-        index index.html index.htm;
+    listen      80;
+    listen      [::]:80;
+    add_header  X-Served-By $::hostname;
+    root        /var/www/test/html;
+    index       index.html index.htm;
+
+    location /redirect_me {
+        return 301 'https://www.youtube.com/watch?v=QH2-TGUlwu4';
     }
-    add_header X-Served-By $hostname always; # Custom header
-}',
-  require => Package['nginx'], # Depends on Nginx package installation
-  notify  => Service['nginx'], # Notify Nginx service to reload on file change
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root /var/www/test/html;
+        internal;
+    }
+}
+| EOF
+  notify  => Service['nginx'],
+  mode    => '0644',
 }
 
-# Ensure the Nginx service is running and enabled to start on boot
-service {'nginx':
-  ensure  => running,
-  enabled => true,
-  require => File['/etc/nginx/sites-available/default'], # Depends on the Nginx site configuration
+# Ensure nginx service is running and enabled
+service { 'nginx':
+  ensure     => running,
+  enable     => true,
+  subscribe  => File['/etc/nginx/sites-available/default'],
 }
