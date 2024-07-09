@@ -38,7 +38,7 @@ file { '/etc/nginx/sites-available/default':
 server {
     listen      80;
     listen      [::]:80;
-    add_header  X-Served-By \$hostname;
+    add_header  X-Served-By $hostname;
     root        /var/www/html;
     index       index.html index.htm;
 
