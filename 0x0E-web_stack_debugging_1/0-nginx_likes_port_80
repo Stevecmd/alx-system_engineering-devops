@@ -1,11 +1,30 @@
 #!/usr/bin/env bash
 # 0. Nginx likes port 80 - Debugging Nginx is listening on port 80
 
+# Check if Nginx is installed
+if ! command -v nginx &> /dev/null; then
+    echo "Nginx is not installed."
+    exit 1
+fi
+
 # Check if Nginx is running
-sudo service nginx status
+if ! sudo service nginx status; then
+    echo "Nginx service is not running. Attempting to start..."
+    sudo service nginx start
+fi
 
 # Check if Nginx is listening on port 80
-sudo netstat -tuln | grep 80
+if ! sudo netstat -tuln | grep ':80'; then
+    echo "Nginx is not listening on port 80."
+else
+    echo "Nginx is listening on port 80."
+fi
 
 # Check the Nginx error log
-sudo tail -n 20 /var/log/nginx/error.log
+ERROR_LOG="/var/log/nginx/error.log"
+if [ -f "$ERROR_LOG" ]; then
+    echo "Last 20 lines of the Nginx error log:"
+    sudo tail -n 20 "$ERROR_LOG"
+else
+    echo "Nginx error log file does not exist at $ERROR_LOG."
+fi
