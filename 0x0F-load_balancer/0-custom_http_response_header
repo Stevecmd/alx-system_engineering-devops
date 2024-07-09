@@ -24,29 +24,33 @@ sudo chmod -R 755 /var/www
 
 # Create or overwrite index and error pages
 echo "Hello World!" > /var/www/test/html/index.html
-echo "Ceci n'est pas une page" > /var/www/test/html/404.html
+echo "Ceci n'est pas une page" > /var/www/test/html/error_404.html
 
 # Backup the default server config file if it hasn't been backed up yet
 default_config="/etc/nginx/sites-available/default"
-if [ ! -f "$default_config.backup" ]; then
-    sudo cp "$default_config" "$default_config.backup"
+if [ ! -f "${default_config}.backup" ]; then
+    sudo cp "$default_config" "${default_config}.backup"
 fi
 
-# Write the server configuration
+# Write the server configuration with adjusted error page and redirection
 server_config='server {
-    listen      80;
-    listen      [::]:80;
+    listen      80 default_server;
+    listen      [::]:80 default_server;
     root        /var/www/test/html;
     index       index.html index.htm;
     server_name _;
     add_header  X-Served-By $hostname;
 
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
     location /redirect_me {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 
-    error_page 404 /404.html;
-    location = /404.html {
+    error_page 404 /error_404.html;
+    location = /error_404.html {
         root /var/www/test/html;
         internal;
     }
