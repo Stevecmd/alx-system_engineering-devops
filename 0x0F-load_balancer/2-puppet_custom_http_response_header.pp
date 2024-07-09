@@ -17,11 +17,19 @@ file {'/var/www/html/index.html':
   content => 'Hello World!', # Content of the index.html file
 }
 
-# Configure Nginx to use a custom site configuration
-# This configuration should include the custom HTTP header and any necessary redirects
+# Configure Nginx to use a custom site configuration with a custom HTTP header
 file {'/etc/nginx/sites-available/default':
   ensure  => file,
-  content => template('nginx/default.erb'), # Use a template for Nginx configuration
+  content => '
+server {
+    listen 80;
+    server_name _;
+    location / {
+        root /var/www/html;
+        index index.html index.htm;
+    }
+    add_header X-Served-By $hostname always; # Custom header
+}',
   require => Package['nginx'], # Depends on Nginx package installation
   notify  => Service['nginx'], # Notify Nginx service to reload on file change
 }
@@ -29,5 +37,6 @@ file {'/etc/nginx/sites-available/default':
 # Ensure the Nginx service is running and enabled to start on boot
 service {'nginx':
   ensure  => running,
+  enabled => true,
   require => File['/etc/nginx/sites-available/default'], # Depends on the Nginx site configuration
 }
