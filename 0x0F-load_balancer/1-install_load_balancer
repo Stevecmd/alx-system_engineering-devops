@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # Install and configure HAProxy on an Ubuntu server to load balance between two web servers
 
+STUDENT_ID="197045"
+
 # Update and install HAProxy
-sudo apt-get update
+sudo apt-get update -y
 sudo apt-get install -y haproxy
 
-# Enable HAProxy to start at boot
-sudo systemctl enable haproxy
+# Enable HAProxy to be started by the init script
+echo "ENABLED=1" | sudo tee /etc/default/haproxy
 
 # Configure HAProxy
-sudo bash -c 'cat <<EOF > /etc/haproxy/haproxy.cfg
+sudo bash -c "cat <<EOF > /etc/haproxy/haproxy.cfg
 global
     log /dev/log local0
     log /dev/log local1 notice
@@ -19,14 +21,12 @@ global
     user haproxy
     group haproxy
     daemon
-    maxconn 256
 
 defaults
     log     global
     mode    http
     option  httplog
     option  dontlognull
-    retries 3
     timeout connect 5000ms
     timeout client  50000ms
     timeout server  50000ms
@@ -38,12 +38,12 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server 197045-web-01 54.160.94.43:80 check
-    server 197045-web-02 34.203.38.175:80 check
-EOF'
+    server ${STUDENT_ID}-web-01 54.160.94.43:80 check
+    server ${STUDENT_ID}-web-02 34.203.38.175:80 check
+EOF"
 
 # Restart HAProxy to apply the changes
-sudo systemctl restart haproxy
+sudo service haproxy restart
 
-# Display the HAProxy status to confirm it's running
-sudo systemctl status haproxy
+# Check HAProxy status
+sudo service haproxy status
