@@ -1,67 +1,61 @@
 #!/usr/bin/env bash
-# Add a custom Nginx response header to track which web server is answering our HTTP requests.
+# This script configures a brand new Ubuntu machine to meet the specified requirements.
 
-# Function to install packages if they are not already installed
-install() {
-    if ! command -v "$1" > /dev/null 2>&1; then
-        echo "Installing: $1"
-        sudo apt-get update -qq && sudo apt-get install -y "$1" -qq
+# Function to install a package if it's not already installed
+function install() {
+    command -v "$1" &> /dev/null
+
+    if [ $? -ne 0 ]; then
+        echo -e "Installing: $1\n"
+        sudo apt-get update -y -qq && \
+            sudo apt-get install -y "$1" -qq
+        echo -e "\n"
     else
-        echo "$1 is already installed."
+        echo -e "$1 is already installed.\n"
     fi
 }
 
-# Install nginx if not already installed
+# Install nginx
 install nginx
 
-# Allow nginx on firewall
+# Allow nginx on port 80 through the firewall
 sudo ufw allow 'Nginx HTTP'
 
-# Ensure the /var/www directory exists and has appropriate permissions
-sudo mkdir -p /var/www/test/html /var/www/test/error
+# Set up directory and file structure
+sudo mkdir -p /var/www/test/html
 sudo chown -R "$USER":"$USER" /var/www
 sudo chmod -R 755 /var/www
 
-# Create or overwrite index and error pages
+# Create index.html
 echo "Hello World!" > /var/www/test/html/index.html
-echo "Ceci n'est pas une page" > /var/www/test/html/error_404.html
 
-# Backup the default server config file if it hasn't been backed up yet
-default_config="/etc/nginx/sites-available/default"
-if [ ! -f "${default_config}.backup" ]; then
-    sudo cp "$default_config" "${default_config}.backup"
-fi
+# Create error page
+echo "Ceci n'est pas une page" > /var/www/test/html/404.html
 
-# Write the server configuration with adjusted error page and redirection
-server_config='server {
-    listen      80 default_server;
-    listen      [::]:80 default_server;
-    root        /var/www/test/html;
-    index       index.html index.htm;
-    server_name _;
-    add_header  X-Served-By $hostname;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
+# Configure Nginx with the required settings
+nginx_config="
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By \$HOSTNAME;
+    root /var/www/test/html;
+    index index.html index.htm;
 
     location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+        return 301 'https://www.youtube.com/watch?v=QH2-TGUlwu4';
     }
 
-    error_page 404 /error_404.html;
-    location = /error_404.html {
-        root /var/www/test/html;
+    error_page 404 /404.html;
+    location = /404.html {
         internal;
     }
-}'
+}
+"
 
-echo "$server_config" | sudo tee "$default_config" > /dev/null
+# Write the nginx configuration
+echo "$nginx_config" | sudo tee /etc/nginx/sites-available/default > /dev/null
 
-# Ensure the configuration is enabled
-if [ ! -L /etc/nginx/sites-enabled/default ]; then
-    sudo ln -s "$default_config" /etc/nginx/sites-enabled/
-fi
+# Restart Nginx service to apply changes
+sudo service nginx restart
 
-# Reload Nginx to apply changes
-sudo systemctl reload nginx
+echo -e "Configuration complete. Nginx is running with custom HTTP header X-Served-By set to hostname."
