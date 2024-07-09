@@ -1,30 +1,43 @@
 #!/usr/bin/env bash
-# 0. Nginx likes port 80 - Debugging Nginx is listening on port 80
+# Fixes for Nginx to ensure it's running and listening on port 80
 
-# Check if Nginx is installed
+# Install Nginx if it's not installed
 if ! command -v nginx &> /dev/null; then
-    echo "Nginx is not installed."
-    exit 1
+    echo "Nginx is not installed. Installing..."
+    sudo apt-get update
+    sudo apt-get install -y nginx
 fi
 
-# Check if Nginx is running
-if ! sudo service nginx status; then
-    echo "Nginx service is not running. Attempting to start..."
+# Ensure Nginx service is running
+if ! sudo service nginx status > /dev/null; then
+    echo "Nginx is not running. Starting Nginx..."
     sudo service nginx start
+else
+    echo "Nginx is already running."
 fi
+
+# Ensure Nginx is enabled to start on boot
+sudo systemctl enable nginx
 
 # Check if Nginx is listening on port 80
-if ! sudo netstat -tuln | grep ':80'; then
-    echo "Nginx is not listening on port 80."
+if ! sudo netstat -tuln | grep ':80' > /dev/null; then
+    echo "Nginx is not listening on port 80. Checking configuration..."
+
+    # Ensure the default Nginx configuration is set to listen on port 80
+    # This step assumes the default configuration file location and default server block
+    sudo sed -i '/listen 80;/!s/listen [^;]*;/listen 80;/' /etc/nginx/sites-available/default
+
+    # Restart Nginx to apply the configuration changes
+    sudo service nginx restart
+
+    echo "Nginx has been configured to listen on port 80."
 else
     echo "Nginx is listening on port 80."
 fi
 
-# Check the Nginx error log
-ERROR_LOG="/var/log/nginx/error.log"
-if [ -f "$ERROR_LOG" ]; then
-    echo "Last 20 lines of the Nginx error log:"
-    sudo tail -n 20 "$ERROR_LOG"
+# Final check to ensure everything is set up correctly
+if sudo netstat -tuln | grep ':80' > /dev/null; then
+    echo "Nginx setup is complete and listening on port 80."
 else
-    echo "Nginx error log file does not exist at $ERROR_LOG."
+    echo "There was an issue setting up Nginx to listen on port 80."
 fi
