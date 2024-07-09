@@ -1,59 +1,48 @@
 #!/usr/bin/env bash
+# Add a custom Nginx response header to track which web server is answering our HTTP requests.
 
-echo -e "Updating and doing some minor checks...\n"
-
-function install() {
-    command -v "$1" &> /dev/null
-    if ! command -v "$1" &> /dev/null; then
-        echo -e "    Installing: $1\n"
-        sudo apt-get update -y -qq && \
-            sudo apt-get install -y "$1" -qq
-        echo -e "\n"
+# Function to install packages if they are not already installed
+install() {
+    if ! command -v "$1" > /dev/null 2>&1; then
+        echo "Installing: $1"
+        sudo apt-get update -qq && sudo apt-get install -y "$1" -qq
     else
-        echo -e "    ${1} is already installed.\n"
+        echo "$1 is already installed."
     fi
 }
-install nginx # Install nginx if not already installed
 
-echo -e "\nSetting up some minor stuff.\n"
+# Install nginx if not already installed
+install nginx
 
-# Allowing nginx on firewall
+# Allow nginx on firewall
 sudo ufw allow 'Nginx HTTP'
 
-# Give the user ownership to website files for easy editing
-if [ -d "/var/www" ]; then
-    sudo chown -R "$USER":"$USER" /var/www
-    sudo chmod -R 755 /var/www
-else
-    sudo mkdir -p /var/www
-    sudo chown -R "$USER":"$USER" /var/www
-    sudo chmod -R 755 /var/www
-fi
+# Ensure the /var/www directory exists and has appropriate permissions
+sudo mkdir -p /var/www/test/html /var/www/test/error
+sudo chown -R "$USER":"$USER" /var/www
+sudo chmod -R 755 /var/www
 
-# Create directories if not present
-for dir in /var/www/test/html /var/www/test/error; do
-    if ! [ -d "$dir" ]; then
-        mkdir -p "$dir"
-    fi
-done
-
-# Creating new index and error page
+# Create or overwrite index and error pages
 echo "Hello World!" > /var/www/test/html/index.html
 echo "Ceci n'est pas une page" > /var/www/test/html/404.html
 
-# Backup default server config file
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
+# Backup the default server config file if it hasn't been backed up yet
+default_config="/etc/nginx/sites-available/default"
+if [ ! -f "$default_config.backup" ]; then
+    sudo cp "$default_config" "$default_config.backup"
+fi
 
-server_config="server {
+# Write the server configuration
+server_config='server {
     listen      80;
     listen      [::]:80;
     root        /var/www/test/html;
     index       index.html index.htm;
     server_name _;
-    add_header  X-Served-By \$hostname;
+    add_header  X-Served-By $hostname;
 
     location /redirect_me {
-        return 301 'https://www.youtube.com/watch?v=QH2-TGUlwu4';
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 
     error_page 404 /404.html;
@@ -61,18 +50,14 @@ server_config="server {
         root /var/www/test/html;
         internal;
     }
-}"
+}'
 
-echo "$server_config" | sudo dd status=none of=/etc/nginx/sites-available/default
+echo "$server_config" | sudo tee "$default_config" > /dev/null
 
-# Enable the configuration if it's not already linked
+# Ensure the configuration is enabled
 if [ ! -L /etc/nginx/sites-enabled/default ]; then
-    sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+    sudo ln -s "$default_config" /etc/nginx/sites-enabled/
 fi
 
-# Check if Nginx is running and start or restart it accordingly
-if [ "$(pgrep -c nginx)" -le 0 ]; then
-    sudo systemctl start nginx
-else
-    sudo systemctl restart nginx
-fi
+# Reload Nginx to apply changes
+sudo systemctl reload nginx
