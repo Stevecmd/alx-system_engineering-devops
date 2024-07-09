@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Install HAProxy on an Ubuntu server to load balance between two web servers.
 
 # Update and install HAProxy
 sudo apt-get update
@@ -35,8 +36,8 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server web-01 54.160.94.43:80 check
-    server web-02 34.203.38.175:80 check
+    server 197045-web-01 54.160.94.43:80 check
+    server 197045-web-02 34.203.38.175:80 check
 EOF
 
 # Restart HAProxy to apply the changes
