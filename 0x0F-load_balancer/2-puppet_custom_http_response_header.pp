@@ -6,7 +6,7 @@ package { 'nginx':
 }
 
 # Ensure the necessary directories exist
-file { '/var/www/test/html':
+file { '/var/www/html':
   ensure => directory,
   owner  => 'www-data',
   group  => 'www-data',
@@ -14,7 +14,7 @@ file { '/var/www/test/html':
 }
 
 # Create index.html
-file { '/var/www/test/html/index.html':
+file { '/var/www/html/index.html':
   ensure  => file,
   content => 'Hello World!',
   owner   => 'www-data',
@@ -23,7 +23,7 @@ file { '/var/www/test/html/index.html':
 }
 
 # Create 404.html
-file { '/var/www/test/html/404.html':
+file { '/var/www/html/404.html':
   ensure  => file,
   content => "Ceci n'est pas une page",
   owner   => 'www-data',
@@ -38,8 +38,8 @@ file { '/etc/nginx/sites-available/default':
 server {
     listen      80;
     listen      [::]:80;
-    add_header  X-Served-By $::hostname;
-    root        /var/www/test/html;
+    add_header  X-Served-By \$hostname;
+    root        /var/www/html;
     index       index.html index.htm;
 
     location /redirect_me {
@@ -48,7 +48,7 @@ server {
 
     error_page 404 /404.html;
     location = /404.html {
-        root /var/www/test/html;
+        root /var/www/html;
         internal;
     }
 }
