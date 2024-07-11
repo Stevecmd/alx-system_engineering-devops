@@ -11,6 +11,20 @@
 - The first line of all your Bash scripts should be exactly #!/usr/bin/env bash
 - The second line of all your Bash scripts should be a comment explaining what is the script doing
 
+### Activate a Virtual environment
+1. Create a Virtual Environment:
+```sh
+python3 -m venv venv
+```
+2. Activate the Virtual Environment:
+```sh
+source venv/bin/activate
+```
+3. Deactivate the Virtual Environment:
+```sh
+deactivate
+```
+
 ### Tasks
 0. World wide web
 Configure your domain zone so that the subdomain www points to your load-balancer IP (lb-01). Let’s also add other subdomains to make our life easier, and write a Bash script that will display information about subdomains.
@@ -66,6 +80,51 @@ The subdomain web-02 is a A record and points to 54.89.38.100
 sylvain@ubuntu$
 sylvain@ubuntu$ ./0-world_wide_web holberton.online web-02
 The subdomain web-02 is a A record and points to 54.89.38.100
+
+```
+To run script, install dig utility
+```sh
+
+sudo apt-get update
+sudo apt-get install dnsutils
+dig -v
+
+```
+
+Confirming if my servers and load balancer are online:
+```sh
+
+stevecmd@DESKTOP-UTB295U:~/ALX/alx-system_engineering-devops/0x10-https_ssl$ curl -sI lb-01.stevecloud.tech
+HTTP/1.1 200 OK
+server: nginx/1.18.0 (Ubuntu)
+date: Thu, 11 Jul 2024 08:49:27 GMT
+content-type: text/html
+content-length: 612
+last-modified: Wed, 10 Jul 2024 04:32:07 GMT
+etag: "668e0ec7-264"
+accept-ranges: bytes
+
+stevecmd@DESKTOP-UTB295U:~/ALX/alx-system_engineering-devops/0x10-https_ssl$ curl -sI web-01.stevecloud.tech
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Thu, 11 Jul 2024 08:49:41 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 21 Apr 2020 14:09:01 GMT
+Connection: keep-alive
+ETag: "5e9efe7d-264"
+Accept-Ranges: bytes
+
+stevecmd@DESKTOP-UTB295U:~/ALX/alx-system_engineering-devops/0x10-https_ssl$ curl -sI web-02.stevecloud.tech
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Thu, 11 Jul 2024 08:49:52 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Wed, 10 Jul 2024 04:32:07 GMT
+Connection: keep-alive
+ETag: "668e0ec7-264"
+Accept-Ranges: bytes
 
 ```
 File: `0-world_wide_web`
