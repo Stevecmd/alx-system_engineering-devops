@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Install and start Nginx
 
 sudo apt-get install -y nginx
-sudo service nginx start
+sudo kill "$(pgrep 'nginx' | head -1)"
