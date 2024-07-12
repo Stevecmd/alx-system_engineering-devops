@@ -35,6 +35,15 @@ else
     echo "Nginx is listening on port 80."
 fi
 
+# Remove the default Nginx site configuration from the sites-enabled directory
+rm /etc/nginx/sites-enabled/default
+
+# Create a new symbolic link to the default site configuration file in the sites-enabled directory
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Restart the Nginx service to apply the changes
+service nginx restart
+
 # Final check to ensure everything is set up correctly
 if sudo netstat -tuln | grep ':80' > /dev/null; then
     echo "Nginx setup is complete and listening on port 80."
