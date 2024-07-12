@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Install and start Nginx
-
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo kill "$(pgrep 'nginx' | head -1)"
+sudo service nginx start
