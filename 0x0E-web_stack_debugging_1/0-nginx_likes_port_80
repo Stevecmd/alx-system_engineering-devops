@@ -38,16 +38,3 @@ sudo rm -f /var/run/nginx.pid
 
 # Restart Nginx to apply the changes
 sudo service nginx restart
-
-# Check if Nginx is running and listening on port 80
-if curl -s -o /dev/null -w "%{http_code}" http://localhost:80 | grep -q "200"; then
-    echo "Nginx is running and listening on port 80"
-    exit 0
-else
-    echo "Nginx is not running or not listening on port 80"
-    echo "Nginx configuration:"
-    sudo cat "$NGINX_DEFAULT_CONF"
-    echo "Nginx status:"
-    sudo service nginx status
-    exit 1
-fi
