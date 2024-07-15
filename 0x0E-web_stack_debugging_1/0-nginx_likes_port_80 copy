@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Script to ensure Nginx is installed, running, and listening on port 80
+
+set -e  # Exit immediately if a command exits with a non-zero status
+set -x  # Print commands and their arguments as they are executed
+
+# Function to install Nginx
+install_nginx() {
+    echo "Installing Nginx..."
+    sudo apt update
+    sudo apt install -y nginx
+}
+
+# Check if Nginx is installed
+if ! command -v nginx &> /dev/null; then
+    install_nginx
+fi
+
+# Locate the Nginx default configuration file
+NGINX_DEFAULT_CONF="/etc/nginx/sites-available/default"
+if [ ! -f "$NGINX_DEFAULT_CONF" ]; then
+    echo "Nginx configuration file not found at $NGINX_DEFAULT_CONF."
+    exit 1
+fi
+
+# Enable the site if it's not already enabled
+if [ ! -f "/etc/nginx/sites-enabled/default" ]; then
+    sudo ln -s "$NGINX_DEFAULT_CONF" /etc/nginx/sites-enabled/
+fi
+
+# Update the Nginx configuration to listen on port 80
+sudo sed -i "s/listen 8080 default_server;/listen 80 default_server;/" "$NGINX_DEFAULT_CONF"
+sudo sed -i "s/listen \[::\]:8080 default_server;/listen \[::\]:80 default_server;/" "$NGINX_DEFAULT_CONF"
+
+# Remove the Nginx PID file to ensure Nginx can start without issues
+sudo rm -f /run/nginx.pid
+sudo rm -f /var/run/nginx.pid
+
+# Restart Nginx to apply the changes
+sudo service nginx restart
+
+# Check if Nginx is running and listening on port 80
+if curl -s -o /dev/null -w "%{http_code}" http://localhost:80 | grep -q "200"; then
+    echo "Nginx is running and listening on port 80"
+    exit 0
+else
+    echo "Nginx is not running or not listening on port 80"
+    echo "Nginx configuration:"
+    sudo cat "$NGINX_DEFAULT_CONF"
+    echo "Nginx status:"
+    sudo service nginx status
+    exit 1
+fi
