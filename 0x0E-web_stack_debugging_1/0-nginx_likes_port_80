@@ -9,4 +9,5 @@ sudo sed -i "s/listen \[::\]:8080 default_server;/listen \[::\]:80 default_serve
 sudo service nginx restart
 
 # Remove the Nginx PID file to ensure Nginx can start without issues
-rm /var/run/nginx.pid
+# rm /var/run/nginx.pid
+rm /var/run/nginx/nginx.pid
