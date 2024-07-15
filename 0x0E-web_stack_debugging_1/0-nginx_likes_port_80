@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Fixes for Nginx to ensure it's running and listening on port 80
 
-rm /etc/nginx/sites-enabled/default
+sudo rm /etc/nginx/sites-enabled/default
 
-ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-service nginx restart
+sudo service nginx restart
