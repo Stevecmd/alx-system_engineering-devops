@@ -6,6 +6,8 @@ sudo sed -i "s/listen 8080 default_server;/listen 80 default_server;/" /etc/ngin
 sudo sed -i "s/listen \[::\]:8080 default_server;/listen \[::\]:80 default_server;/" /etc/nginx/sites-enabled/default
 
 # Remove the Nginx PID file to ensure Nginx can start without issues
+sudo rm /run/nginx.pid
+sudo rm /run/nginx.pid
 sudo rm /var/run/nginx.pid
 sudo rm /var/run/nginx/nginx.pid
 
