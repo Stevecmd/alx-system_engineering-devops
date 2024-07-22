@@ -61,31 +61,105 @@ Requirements:
 Terminal in `web-01`-
 ```sh
 
-root@03-web-01:~# netstat -lpn
+ubuntu@197045-web-01:~$ ufw status
+ERROR: You need to be root to run this script
+ubuntu@197045-web-01:~$ sudo ufw status
+Status: inactive
+ubuntu@197045-web-01:~$ sudo ufw default deny incoming
+Default incoming policy changed to 'deny'
+(be sure to update your rules accordingly)
+ubuntu@197045-web-01:~$ sudo ufw default allow outgoing
+Default outgoing policy changed to 'allow'
+(be sure to update your rules accordingly)
+ubuntu@197045-web-01:~$ sudo ufw allow 22/tcp
+Rules updated
+Rules updated (v6)
+ubuntu@197045-web-01:~$ sudo ufw allow 80/tcp
+Rules updated
+Rules updated (v6)
+ubuntu@197045-web-01:~$ sudo ufw allow 443/tcp
+Rules updated
+Rules updated (v6)
+ubuntu@197045-web-01:~$ sudo ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+ubuntu@197045-web-01:~$ netstat -lpn
+
+Command 'netstat' not found, but can be installed with:
+
+sudo apt install net-tools
+
+ubuntu@197045-web-01:~$ sudo apt install net-tools
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  net-tools
+0 upgraded, 1 newly installed, 0 to remove and 75 not upgraded.
+Need to get 196 kB of archives.
+After this operation, 864 kB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 net-tools amd64 1.60+git20180626.aebd88e-1ubuntu1 [196 kB]
+Fetched 196 kB in 0s (8855 kB/s)
+Selecting previously unselected package net-tools.
+(Reading database ... 123388 files and directories currently installed.)
+Preparing to unpack .../net-tools_1.60+git20180626.aebd88e-1ubuntu1_amd64.deb ...
+Unpacking net-tools (1.60+git20180626.aebd88e-1ubuntu1) ...
+Setting up net-tools (1.60+git20180626.aebd88e-1ubuntu1) ...
+Processing triggers for man-db (2.9.1-1) ...
+ubuntu@197045-web-01:~$ netstat -lpn
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
 Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
-tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      2473/nginx
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      978/sshd
-tcp6       0      0 :::80                   :::*                    LISTEN      2473/nginx
-tcp6       0      0 :::22                   :::*                    LISTEN      978/sshd
-udp        0      0 0.0.0.0:68              0.0.0.0:*                           594/dhclient
-udp        0      0 0.0.0.0:54432           0.0.0.0:*                           594/dhclient
-udp6       0      0 :::32563                :::*                                594/dhclient
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+udp        0      0 127.0.0.53:53           0.0.0.0:*                           -                   
+udp        0      0 10.247.152.26:68        0.0.0.0:*                           -                   
+raw6       0      0 :::58                   :::*                    7           -                   
 Active UNIX domain sockets (only servers)
-Proto RefCnt Flags       Type       State         I-Node   PID/Program name    Path
-unix  2      [ ACC ]     SEQPACKET  LISTENING     7175     433/systemd-udevd   /run/udev/control
-unix  2      [ ACC ]     STREAM     LISTENING     6505     1/init              @/com/ubuntu/upstart
-unix  2      [ ACC ]     STREAM     LISTENING     8048     741/dbus-daemon     /var/run/dbus/system_bus_socket
-unix  2      [ ACC ]     STREAM     LISTENING     8419     987/acpid           /var/run/acpid.socket
-root@03-web-01:~#
-root@03-web-01:~# grep listen /etc/nginx/sites-enabled/default
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
-    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-#   listen 8000;
-#   listen somename:8080;
-#   listen 443;
-root@03-web-01:~#
+Proto RefCnt Flags       Type       State         I-Node   PID/Program name     Path
+unix  2      [ ACC ]     STREAM     LISTENING     960295   68367/systemd        /run/user/1000/systemd/private
+unix  2      [ ACC ]     STREAM     LISTENING     960301   68367/systemd        /run/user/1000/bus
+unix  2      [ ACC ]     STREAM     LISTENING     960302   68367/systemd        /run/user/1000/gnupg/S.dirmngr
+unix  2      [ ACC ]     STREAM     LISTENING     14438    -                    @/org/kernel/linux/storage/multipathd
+unix  2      [ ACC ]     STREAM     LISTENING     960303   68367/systemd        /run/user/1000/gnupg/S.gpg-agent.browser
+unix  2      [ ACC ]     STREAM     LISTENING     960304   68367/systemd        /run/user/1000/gnupg/S.gpg-agent.extra
+unix  2      [ ACC ]     STREAM     LISTENING     960305   68367/systemd        /run/user/1000/gnupg/S.gpg-agent.ssh
+unix  2      [ ACC ]     STREAM     LISTENING     960306   68367/systemd        /run/user/1000/gnupg/S.gpg-agent
+unix  2      [ ACC ]     STREAM     LISTENING     960307   68367/systemd        /run/user/1000/pk-debconf-socket
+unix  2      [ ACC ]     STREAM     LISTENING     960308   68367/systemd        /run/user/1000/snapd-session-agent.socket
+unix  2      [ ACC ]     STREAM     LISTENING     20362    -                    /var/snap/lxd/common/lxd/unix.socket
+unix  2      [ ACC ]     STREAM     LISTENING     20330    -                    /run/acpid.socket
+unix  2      [ ACC ]     STREAM     LISTENING     14425    -                    /run/systemd/private
+unix  2      [ ACC ]     STREAM     LISTENING     20344    -                    /run/dbus/system_bus_socket
+unix  2      [ ACC ]     STREAM     LISTENING     14427    -                    /run/systemd/userdb/io.systemd.DynamicUser
+unix  2      [ ACC ]     STREAM     LISTENING     20364    -                    /run/snapd.socket
+unix  2      [ ACC ]     STREAM     LISTENING     20366    -                    /run/snapd-snap.socket
+unix  2      [ ACC ]     STREAM     LISTENING     20369    -                    /run/uuidd/request
+unix  2      [ ACC ]     STREAM     LISTENING     14436    -                    /run/lvm/lvmpolld.socket
+unix  2      [ ACC ]     STREAM     LISTENING     14441    -                    /run/systemd/fsck.progress
+unix  2      [ ACC ]     STREAM     LISTENING     14451    -                    /run/systemd/journal/stdout
+unix  2      [ ACC ]     SEQPACKET  LISTENING     14456    -                    /run/udev/control
+unix  2      [ ACC ]     STREAM     LISTENING     15160    -                    /run/systemd/journal/io.systemd.journal
+unix  2      [ ACC ]     STREAM     LISTENING     25949    -                    /var/lib/amazon/ssm/ipc/health
+unix  2      [ ACC ]     STREAM     LISTENING     20361    -                    @ISCSIADM_ABSTRACT_NAMESPACE
+unix  2      [ ACC ]     STREAM     LISTENING     25952    -                    /var/lib/amazon/ssm/ipc/termination
+
+ubuntu@197045-web-01:~$ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+Nginx HTTP                 ALLOW       Anywhere                  
+22/tcp                     ALLOW       Anywhere                  
+80/tcp                     ALLOW       Anywhere                  
+443/tcp                    ALLOW       Anywhere                  
+Nginx HTTP (v6)            ALLOW       Anywhere (v6)             
+22/tcp (v6)                ALLOW       Anywhere (v6)             
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+443/tcp (v6)               ALLOW       Anywhere (v6)  
 
 ```
 
