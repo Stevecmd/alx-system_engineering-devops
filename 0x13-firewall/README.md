@@ -196,4 +196,44 @@ ubuntu@03-web-02:~$
 ```
 I use curl to query `web-01.holberton.online`, and since my firewall is forwarding the ports, I get a `HTTP 200` response on port `80/TCP` and also on port `8080/TCP`.
 
+My work:
+```sh
+
+ubuntu@197045-web-01:~$ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+Nginx HTTP                 ALLOW       Anywhere                  
+22/tcp                     ALLOW       Anywhere                  
+80/tcp                     ALLOW       Anywhere                  
+443/tcp                    ALLOW       Anywhere                  
+Nginx HTTP (v6)            ALLOW       Anywhere (v6)             
+22/tcp (v6)                ALLOW       Anywhere (v6)             
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+443/tcp (v6)               ALLOW       Anywhere (v6)             
+
+ubuntu@197045-web-01:~$ ls
+0-custom_http_response_header  0-nginx_likes_port_80  0-setup_web_static.sh  1  101-setup_web_static.pp  setup-nginx
+ubuntu@197045-web-01:~$ vi 100-port_forwarding
+ubuntu@197045-web-01:~$ sudo vi /etc/ufw/before.rules
+ubuntu@197045-web-01:~$ sudo ufw allow 8080
+Rule added
+Rule added (v6)
+ubuntu@197045-web-01:~$ sudo service ufw restart
+ubuntu@197045-web-01:~$ sudo ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+
+```
+When I opened "sudo vi /etc/ufw/before.rules" I added the rules below:
+```sh
+
+# Add the port forwarding rule
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+COMMIT
+
+```
 File: `100-port_forwarding`
