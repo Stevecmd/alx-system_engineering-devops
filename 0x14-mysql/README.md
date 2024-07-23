@@ -1,6 +1,6 @@
 # 0x14. MySQL
 ### General
-
+![MYSQL image](0x14_MySQL.png)
 - What is the main role of a database
 - What is a database replica
 - What is the purpose of a database replica
