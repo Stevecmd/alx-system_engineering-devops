@@ -13,6 +13,3 @@ mysqldump --all-databases -u root --password="$1" > backup.sql
 
 # Compress the SQL backup file into a tar.gz archive with the generated filename
 tar -czvf "$file_name" backup.sql
-
-# Clean up the intermediate SQL file
-rm backup.sql
