@@ -141,6 +141,24 @@ ubuntu@197045-web-01:~$ mysql --version
 mysql  Ver 14.14 Distrib 5.7.42, for Linux (x86_64) using  EditLine wrapper
 
 ```
+or use the `apt` command:
+```sh
+
+ubuntu@197045-web-01:~$ apt list | grep mysql-server
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+default-mysql-server-core/focal 1.0.5ubuntu2 all
+default-mysql-server/focal 1.0.5ubuntu2 all
+mysql-server-8.0/focal-updates,focal-security 8.0.37-0ubuntu0.20.04.3 amd64
+mysql-server-core-8.0/focal-updates,focal-security 8.0.37-0ubuntu0.20.04.3 amd64
+mysql-server/focal-updates,focal-security 8.0.37-0ubuntu0.20.04.3 amd64 [upgradable from: 5.7.42-1ubuntu18.04]
+
+```
+
+Confirm the `GPG-Key` used above by visiting the site [OpenPGP](https://keyserver.ubuntu.com/)<br />
+The specific key used is: `B7B3B788A8D3785C`
+
 Logging into MySQL, fil in your password at the prompt:
 ```sh
 

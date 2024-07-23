@@ -1,0 +1,21 @@
+[mysqld]
+# Replicate only the 'tyrell_corp' database
+binlog_do_db    = tyrell_corp
+# Path to the relay log file
+relay-log       = /var/log/mysql/mysql-relay-bin.log
+# Path to the binary log file
+log_bin         = /var/log/mysql/mysql-bin.log
+# Server ID for replication purposes (unique ID for each server)
+server-id       = 2
+# Path to the PID file
+pid-file        = /var/run/mysqld/mysqld.pid
+# Path to the MySQL socket file
+socket          = /var/run/mysqld/mysqld.sock
+# Directory where MySQL stores data
+datadir         = /var/lib/mysql
+# Path to the error log file
+log-error       = /var/log/mysql/error.log
+# Bind to localhost to accept connections only from the local machine
+bind-address    = 127.0.0.1
+# Disabling symbolic-links is recommended to prevent assorted security risks
+"/etc/mysql/mysql.conf.d/mysqld.cnf" 28L, 938C 
