@@ -10,9 +10,9 @@ sudo systemctl stop apache2
 sudo systemctl disable apache2
 
 # Update Nginx configuration to run as nginx user and listen on port 8080
-sudo sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
-sudo sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
-sudo sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:8080 default_server;/' /etc/nginx/sites-available/default
+sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+chmod 644 /etc/nginx/nginx.conf
 
-# Restart Nginx to apply changes
-sudo systemctl restart nginx
+# Restart Nginx as nginx user to apply changes
+sudo -u nginx service nginx start
