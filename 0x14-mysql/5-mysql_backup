@@ -9,7 +9,15 @@ file_name="$day-$month-$year.tar.gz"  # Construct the filename using the current
 
 # Backup all MySQL databases and save to a SQL file
 # $1 represents the password passed as the first argument to the script
-mysqldump -uroot -p"$1" --all-databases > backup.sql
+if mysqldump -uroot -p"$1" --all-databases > backup.sql; then
+    echo "MySQL dump was successful."
+else
+    echo "Error: MySQL dump failed."
+    exit 1
+fi
 
 # Compress the SQL backup file into a tar.gz archive with the generated filename
 tar -czvf "$file_name" backup.sql
+
+# Optionally, verify the file type (requires 'file' command)
+# file "$file_name"
