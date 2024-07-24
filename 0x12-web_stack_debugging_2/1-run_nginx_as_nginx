@@ -13,11 +13,28 @@ sleep 10
 
 # Update Nginx configuration to run as nginx user and listen on port 8080
 sudo sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf
-sudo sed -i 's/80/8080/g' /etc/nginx/sites-available/default
-sudo sed -i 's/80/8080/g' /etc/nginx/sites-enabled/default
+sudo sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
+sudo sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:8080 default_server;/' /etc/nginx/sites-available/default
 
 # Change permissions on the Nginx configuration file
 sudo chmod 644 /etc/nginx/nginx.conf
 
 # Restart Nginx to apply changes
-sudo -u nginx service nginx start
+sudo systemctl restart nginx
+
+# Ensure Nginx runs as the nginx user
+sudo systemctl set-property nginx.service User=nginx
+
+# Verify Nginx is running as nginx user and listening on port 8080
+echo "Verifying Nginx user and port..."
+if pgrep -x nginx > /dev/null; then
+    echo "Nginx is running as nginx user."
+else
+    echo "Error: Nginx is not running as nginx user."
+fi
+
+if sudo netstat -tuln | grep ':8080' > /dev/null; then
+    echo "Nginx is listening on port 8080."
+else
+    echo "Error: Nginx is not listening on port 8080."
+fi
