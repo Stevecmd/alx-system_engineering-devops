@@ -9,7 +9,7 @@ file_name="$day-$month-$year.tar.gz"  # Construct the filename using the current
 
 # Backup all MySQL databases and save to a SQL file
 # $1 represents the password passed as the first argument to the script
-mysqldump --all-databases -u root --password="$1" > backup.sql
+mysqldump -uroot -p"$1" --all-databases > backup.sql
 
 # Compress the SQL backup file into a tar.gz archive with the generated filename
 tar -czvf "$file_name" backup.sql
