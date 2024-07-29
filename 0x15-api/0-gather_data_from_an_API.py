@@ -24,34 +24,42 @@ Example usage:
 import requests as r
 import sys
 
-if __name__ == "__main__":
+
+def fetch_data(employee_id):
     base_url = "https://jsonplaceholder.typicode.com/"
-    employee_id = sys.argv[1]
+    try:
+        employee_info = r.get(f"{base_url}users/{employee_id}").json()
+        tasks = r.get(
+            f"{base_url}todos",
+            params={"userId": employee_id}
+        ).json()
+    except r.RequestException as e:
+        print(f"Error fetching data: {e}")
+        sys.exit(1)
+    return employee_info, tasks
 
-    # Fetch user information
-    employee_info = r.get(
-        base_url + "users/{}".format(employee_id)
-    ).json()
 
-    # Fetch tasks for the user
-    tasks = r.get(
-        base_url + "todos",
-        params={"userId": employee_id}
-    ).json()
+def main(employee_id):
+    employee_info, tasks = fetch_data(employee_id)
 
-    # Filter completed tasks
-    completed_tasks = [
-        t.get("title") for t in tasks if t.get("completed") is True
-    ]
+    completed_tasks = [t["title"] for t in tasks if t["completed"]]
 
-    # Get employee name
     employee_name = employee_info.get("name")
-
-    # Count completed and total tasks
     num_completed = len(completed_tasks)
     num_tasks = len(tasks)
 
-    # Print the tasks in the desired format
-    print(f"Employee {employee_name} is done with tasks "
-          f"({num_completed}/{num_tasks}):")
-    [print(f"\t {task}") for task in completed_tasks]
+    print(
+        f"Employee {employee_name} is done with tasks ("
+        f"{num_completed}/{num_tasks}):"
+    )
+    for task in completed_tasks:
+        print(f"\t {task}")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
+        sys.exit(1)
+
+    employee_id = sys.argv[1]
+    main(employee_id)
