@@ -50,7 +50,7 @@ def main(employee_id):
     num_tasks = len(tasks)
 
     print(
-        f"Employee {employee_name} is done with tasks ("
+        f"Employee {employee_name} is done with tasks("
         f"{num_completed}/{num_tasks}):"
     )
     for task in completed_tasks:
