@@ -52,7 +52,8 @@ def main(employee_id):
         f"{num_completed}/{num_tasks}):"
     )
     for task in completed_tasks:
-        print(f"     {task}")
+        # print(f"     {task}")
+        print(f"\t {task}")
 
 
 if __name__ == "__main__":
