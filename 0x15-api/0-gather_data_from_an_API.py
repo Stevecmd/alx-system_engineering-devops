@@ -53,7 +53,7 @@ def main(employee_id):
     )
     for task in completed_tasks:
         # print(f"     {task}")
-        print(f"\t{task}")
+        print(f"\t {task}")
 
 
 if __name__ == "__main__":
