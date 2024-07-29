@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Fetches and records all tasks from all employees
+Fetches and records all tasks from a specific employee
 from a REST API and exports the data to a JSON file.
 """
 
@@ -10,24 +10,6 @@ import requests
 import sys
 
 if __name__ == "__main__":
-    base_url = "https://jsonplaceholder.typicode.com"
-
-    # Fetch all users
-    users_response = requests.get(f"{base_url}/users")
-    if users_response.status_code != 200:
-        print("Could not fetch users.")
-        sys.exit(1)
-
-    users_data = users_response.json()
-
-    # Fetch all TODO tasks
-    todos_response = requests.get(f"{base_url}/todos")
-    if todos_response.status_code != 200:
-        print("Could not fetch TODO tasks.")
-        sys.exit(1)
-
-    todos_data = todos_response.json()
-
     if len(sys.argv) != 2:
         print("Usage: python3 0-gather_data_from_an_API.py <user_id>")
         sys.exit(1)
@@ -46,7 +28,10 @@ if __name__ == "__main__":
     name = user_data.get("name")
 
     # Fetch TODO tasks for the user
-    todos_response = requests.get(f"{base_url}/todos?userId={user_id}")
+    todos_response = requests.get(
+        f"{base_url}/todos",
+        params={"userId": user_id}
+    )
     if todos_response.status_code != 200:
         print("Could not fetch TODO tasks.")
         sys.exit(1)
