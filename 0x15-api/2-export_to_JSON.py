@@ -24,9 +24,9 @@ Example usage:
     python3 2-export_to_JSON.py 2
 """
 
+import json
 import requests
 import sys
-import json
 
 
 def get_employee_todo_progress(employee_id):
