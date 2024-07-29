@@ -5,68 +5,37 @@ Fetches and records all tasks from a specific employee
 from a REST API and exports the data to a JSON file.
 """
 
-import json
-import requests
+import requests as r
 import sys
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python3 0-gather_data_from_an_API.py <user_id>")
-        sys.exit(1)
+    base_url = "https://jsonplaceholder.typicode.com/"
+    employee_id = sys.argv[1]
 
-    user_id = sys.argv[1]
-    base_url = "https://jsonplaceholder.typicode.com"
-
-    # Fetch user
-    user_response = requests.get(
+    # Fetch user information
+    employee_info = r.get(
         base_url + "users/{}".format(employee_id)
     ).json()
-    if user_response.status_code != 200:
-        print("Could not fetch user.")
-        sys.exit(1)
 
-    user_data = user_response.json()
-    username = user_data.get("username")
-    name = user_data.get("name")
-
-    # Fetch TODO tasks for the user
-    todos_response = requests.get(
+    # Fetch tasks for the user
+    tasks = r.get(
         base_url + "todos",
         params={"userId": employee_id}
     ).json()
-    if todos_response.status_code != 200:
-        print("Could not fetch TODO tasks.")
-        sys.exit(1)
 
-    todos_data = todos_response.json()
-
-    # Organize data in the required format
+    # Filter completed tasks
     completed_tasks = [
         t.get("title") for t in tasks if t.get("completed") is True
     ]
-    total_tasks = len(todos_data)
-    completed_count = len(completed_tasks)
+
+    # Get employee name
+    employee_name = employee_info.get("name")
+
+    # Count completed and total tasks
+    num_completed = len(completed_tasks)
+    num_tasks = len(tasks)
 
     # Print the tasks in the desired format
-    print(
-        f"Employee {name} is done with tasks("
-        f"{completed_count}/{total_tasks}):"
-    )
-    for task in completed_tasks:
-        print(f"\t {task.get('title')}")
-
-    # Export to JSON
-    all_tasks = {
-        str(user_id): [
-            {
-                "username": username,
-                "task": task.get("title"),
-                "completed": task.get("completed")
-            }
-            for task in todos_data
-        ]
-    }
-
-    json_filename = "todo_all_employees.json"
-    with open(json_filename, mode='w') as file:
-        json.dump(all_tasks, file)
+    print(f"Employee {employee_name} is done with tasks "
+          f"({num_completed}/{num_tasks}):")
+    [print(f"\t {task}") for task in completed_tasks]
