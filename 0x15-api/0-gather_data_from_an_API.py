@@ -18,7 +18,9 @@ if __name__ == "__main__":
     base_url = "https://jsonplaceholder.typicode.com"
 
     # Fetch user
-    user_response = requests.get(f"{base_url}/users/{user_id}")
+    user_response = requests.get(
+        base_url + "users/{}".format(employee_id)
+    ).json()
     if user_response.status_code != 200:
         print("Could not fetch user.")
         sys.exit(1)
