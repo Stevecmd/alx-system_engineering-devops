@@ -41,8 +41,6 @@ def fetch_data(employee_id):
 def main(employee_id):
     employee_info, tasks = fetch_data(employee_id)
 
-    # print(f"Debug: Fetched employee info: {employee_info}")
-
     completed_tasks = [t["title"] for t in tasks if t["completed"]]
 
     employee_name = employee_info.get("name")
@@ -50,7 +48,7 @@ def main(employee_id):
     num_tasks = len(tasks)
 
     print(
-        f"Employee {employee_name} is done with tasks("
+        f"Employee {employee_name} is done with tasks ("
         f"{num_completed}/{num_tasks}):"
     )
     for task in completed_tasks:
@@ -62,5 +60,10 @@ if __name__ == "__main__":
         print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
         sys.exit(1)
 
-    employee_id = sys.argv[1]
+    try:
+        employee_id = int(sys.argv[1])
+    except ValueError:
+        print("Error: Employee ID must be an integer.")
+        sys.exit(1)
+
     main(employee_id)
