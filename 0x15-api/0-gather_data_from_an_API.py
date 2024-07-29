@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-"""Fetches and records all tasks from all employees
+
+"""
+Fetches and records all tasks from all employees
 from a REST API and exports the data to a JSON file.
 """
 
-import requests
 import json
+import requests
 import sys
 
 if __name__ == "__main__":
