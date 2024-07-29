@@ -23,44 +23,43 @@ Example usage:
 import requests as r
 import sys
 
-
-def fetch_data(employee_id):
-    base_url = "https://jsonplaceholder.typicode.com/"
-    try:
-        employee_info = r.get(f"{base_url}users/{employee_id}").json()
-        tasks = r.get(
-            f"{base_url}todos",
-            params={"userId": employee_id}
-        ).json()
-    except r.RequestException as e:
-        print(f"Error fetching data: {e}")
-        sys.exit(1)
-    return employee_info, tasks
-
-
-def main(employee_id):
-    employee_info, tasks = fetch_data(employee_id)
-
-    # print(f"Debug: Fetched employee info: {employee_info}")
-
-    completed_tasks = [t["title"] for t in tasks if t["completed"]]
-
-    employee_name = employee_info.get("name")
-    num_completed = len(completed_tasks)
-    num_tasks = len(tasks)
-
-    print(
-        f"Employee {employee_name} is done with tasks("
-        f"{num_completed}/{num_tasks}):"
-    )
-    for task in completed_tasks:
-        print(f"     {task}")
-
-
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
         sys.exit(1)
 
     employee_id = sys.argv[1]
-    main(employee_id)
+    base_url = "https://jsonplaceholder.typicode.com/"
+
+    try:
+        user_response = r.get(f"{base_url}users/{employee_id}")
+        user_response.raise_for_status()
+        user = user_response.json()
+
+        todos_response = r.get(
+            f"{base_url}todos",
+            params={"userId": employee_id}
+        )
+        todos_response.raise_for_status()
+        todos = todos_response.json()
+    except r.RequestException as e:
+        print(f"Error fetching data: {e}")
+        sys.exit(1)
+
+    completed_tasks = [
+        task.get("title")
+        for task in todos
+        if task.get("completed")
+    ]
+
+    employee_name = user.get("name")
+    num_completed_tasks = len(completed_tasks)
+    total_tasks = len(todos)
+
+    print(
+        f"Employee {employee_name} "
+        f"is done with tasks("
+        f"{num_completed_tasks}/{total_tasks}):"
+    )
+    for task in completed_tasks:
+        print(f"\t {task}")
