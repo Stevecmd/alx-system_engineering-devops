@@ -31,9 +31,9 @@ if __name__ == "__main__":
 
     # Fetch TODO tasks for the user
     todos_response = requests.get(
-        f"{base_url}/todos",
-        params={"userId": user_id}
-    )
+        base_url + "todos",
+        params={"userId": employee_id}
+    ).json()
     if todos_response.status_code != 200:
         print("Could not fetch TODO tasks.")
         sys.exit(1)
@@ -41,7 +41,9 @@ if __name__ == "__main__":
     todos_data = todos_response.json()
 
     # Organize data in the required format
-    completed_tasks = [task for task in todos_data if task.get("completed")]
+    completed_tasks = [
+        t.get("title") for t in tasks if t.get("completed") is True
+    ]
     total_tasks = len(todos_data)
     completed_count = len(completed_tasks)
 
