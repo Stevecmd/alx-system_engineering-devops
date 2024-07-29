@@ -14,8 +14,8 @@ Example usage:
     python3 3-dictionary_of_list_of_dictionaries.py
 """
 
-import requests
 import json
+import requests
 
 
 def fetch_all_employee_tasks():
