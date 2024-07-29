@@ -24,46 +24,27 @@ Example usage:
 """
 
 import csv
-import requests
+import requests as r
 import sys
 
+# Define base URL
+BASE_URL = "https://jsonplaceholder.typicode.com/"
 
-def get_employee_todo_progress(employee_id):
-    base_url = "https://jsonplaceholder.typicode.com"
 
-    # Fetch employee data
-    user_response = requests.get(f"{BASE_URL}users/{user_id}").json()
-    if user_response.status_code != 200:
-        print(f"User with ID {employee_id} not found.")
-        return
+# Define a function to get user data
+def get_user_data(user_id):
+    user = r.get(f"{BASE_URL}users/{user_id}").json()
+    username = user.get("username")
+    todos = r.get(f"{BASE_URL}todos", params={"userId": user_id}).json()
+    return user_id, username, todos
 
-    user_data = user_response.json()
-    employee_name = user_data.get("name")
 
-    # Fetch TODO list data
-    todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
-    if todos_response.status_code != 200:
-        print(f"Could not fetch TODO list for user ID {employee_id}.")
-        return
-
-    todos_data = todos_response.json()
-
-    # Calculate the number of completed and total tasks
-    total_tasks = len(todos_data)
-    done_tasks = [task for task in todos_data if task.get("completed")]
-    number_of_done_tasks = len(done_tasks)
-
-    # Export to CSV
-    csv_filename = f"{employee_id}.csv"
-    with open(csv_filename, mode='w', newline='') as file:
-        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-        for task in todos_data:
-            writer.writerow([
-                employee_id,
-                employee_name,
-                task.get("completed"),
-                task.get("title")
-            ])
+# Define a function to export data to CSV
+def export_to_csv(filename, data):
+    with open(filename, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        for element in data:
+            writer.writerow(element)
 
 
 if __name__ == "__main__":
@@ -72,9 +53,19 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        employee_id = int(sys.argv[1])
+        user_id = int(sys.argv[1])
     except ValueError:
         print("Employee ID must be an integer.")
         sys.exit(1)
 
-    get_employee_todo_progress(employee_id)
+    # Get user data
+    user_id, username, todo_data = get_user_data(user_id)
+
+    # Prepare data for CSV export
+    csv_data = [
+        [user_id, username, task.get("completed"), task.get("title")]
+        for task in todo_data
+    ]
+
+    # Export data to CSV
+    export_to_csv(f"{user_id}.csv", csv_data)
