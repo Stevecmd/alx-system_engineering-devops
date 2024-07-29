@@ -23,16 +23,16 @@ Example usage:
     python3 1-export_to_CSV.py 2
 """
 
+import csv
 import requests
 import sys
-import csv
 
 
 def get_employee_todo_progress(employee_id):
     base_url = "https://jsonplaceholder.typicode.com"
 
     # Fetch employee data
-    user_response = requests.get(f"{base_url}/users/{employee_id}")
+    user_response = requests.get(f"{BASE_URL}users/{user_id}").json()
     if user_response.status_code != 200:
         print(f"User with ID {employee_id} not found.")
         return
