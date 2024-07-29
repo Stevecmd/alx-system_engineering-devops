@@ -23,39 +23,30 @@ def fetch_all_employee_tasks():
 
     # Fetch all users
     users_response = requests.get(f"{base_url}/users")
-    if users_response.status_code != 200:
-        print("Could not fetch users.")
-        return
+    users = users_response.json()
 
-    users_data = users_response.json()
-
-    # Fetch all TODO tasks
+    # Fetch all tasks
     todos_response = requests.get(f"{base_url}/todos")
-    if todos_response.status_code != 200:
-        print("Could not fetch TODO tasks.")
-        return
+    todos = todos_response.json()
 
-    todos_data = todos_response.json()
-
-    # Organize data in the required format
-    all_tasks = {}
-    for user in users_data:
+    # Prepare data for JSON export
+    data = {}
+    for user in users:
         user_id = user.get("id")
         username = user.get("username")
-        user_tasks = [
+        user_tasks = [task for task in todos if task.get("userId") == user_id]
+        data[user_id] = [
             {
                 "username": username,
                 "task": task.get("title"),
                 "completed": task.get("completed")
             }
-            for task in todos_data if task.get("userId") == user_id
+            for task in user_tasks
         ]
-        all_tasks[str(user_id)] = user_tasks
 
     # Export to JSON
-    json_filename = "todo_all_employees.json"
-    with open(json_filename, mode='w') as file:
-        json.dump(all_tasks, file)
+    with open("todo_all_employees.json", "w") as file:
+        json.dump(data, file)
 
 
 if __name__ == "__main__":
