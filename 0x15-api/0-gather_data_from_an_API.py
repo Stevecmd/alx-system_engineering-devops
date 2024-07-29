@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """
 This script fetches and displays the TODO list progress for a given employee ID
 from a REST API.
@@ -42,6 +41,8 @@ def fetch_data(employee_id):
 def main(employee_id):
     employee_info, tasks = fetch_data(employee_id)
 
+    # print(f"Debug: Fetched employee info: {employee_info}")
+
     completed_tasks = [t["title"] for t in tasks if t["completed"]]
 
     employee_name = employee_info.get("name")
@@ -53,7 +54,7 @@ def main(employee_id):
         f"{num_completed}/{num_tasks}):"
     )
     for task in completed_tasks:
-        print(f"\t {task}")
+        print(f"     {task}")
 
 
 if __name__ == "__main__":
