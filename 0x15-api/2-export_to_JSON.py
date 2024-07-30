@@ -37,9 +37,23 @@ def get_user_data(user_id):
     """
     Fetch user data and TODO list for the given user ID.
     """
-    user = requests.get(f"{BASE_URL}users/{user_id}").json()
+    user_response = requests.get(f"{BASE_URL}users/{user_id}")
+    if user_response.status_code != 200:
+        print(f"User with ID {user_id} not found.")
+        sys.exit(1)
+
+    user = user_response.json()
     username = user.get("username")
-    todos = requests.get(f"{BASE_URL}todos", params={"userId": user_id}).json()
+
+    todos_response = requests.get(
+        f"{BASE_URL}todos",
+        params={"userId": user_id}
+    )
+    if todos_response.status_code != 200:
+        print(f"Could not fetch TODO list for user ID {user_id}.")
+        sys.exit(1)
+
+    todos = todos_response.json()
     return user_id, username, todos
 
 
@@ -47,12 +61,17 @@ def export_to_json(filename, data):
     """
     Export data to a JSON file with the specified filename.
     """
-    with open(f"{filename}.json", "w") as jsonfile:
-        json.dump({data[0]: [{
+    tasks = [
+        {
             "task": task.get("title"),
             "completed": task.get("completed"),
             "username": data[1]
-        } for task in data[2]]}, jsonfile, indent=4)
+        } for task in data[2]
+    ]
+    data_to_export = {str(data[0]): tasks}
+
+    with open(f"{filename}.json", "w") as jsonfile:
+        json.dump(data_to_export, jsonfile, indent=4)
 
 
 def main():
