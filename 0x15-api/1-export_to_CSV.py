@@ -47,15 +47,6 @@ def export_to_csv(filename, data):
     """
     with open(filename, "w", newline="") as csvfile:
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
-        # Write header
-        writer.writerow(
-            [
-                "USER_ID",
-                "USERNAME",
-                "TASK_COMPLETED_STATUS",
-                "TASK_TITLE"
-            ]
-        )
         for element in data:
             writer.writerow(element)
 
