@@ -33,21 +33,29 @@ BASE_URL = "https://jsonplaceholder.typicode.com/"
 
 # Define a function to get user data
 def get_user_data(user_id):
+    """
+    Fetch user data and TODO list for the given user ID.
+    """
     user = r.get(f"{BASE_URL}users/{user_id}").json()
     username = user.get("username")
     todos = r.get(f"{BASE_URL}todos", params={"userId": user_id}).json()
     return user_id, username, todos
 
 
-# Define a function to export data to CSV
 def export_to_csv(filename, data):
+    """
+    Export data to a CSV file with the specified filename.
+    """
     with open(filename, "w", newline="") as csvfile:
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         for element in data:
             writer.writerow(element)
 
 
-if __name__ == "__main__":
+def main():
+    """
+    Main function to handle user input and process the TODO list.
+    """
     if len(sys.argv) != 2:
         print("Usage: python3 1-export_to_CSV.py <employee_id>")
         sys.exit(1)
@@ -69,3 +77,8 @@ if __name__ == "__main__":
 
     # Export data to CSV
     export_to_csv(f"{user_id}.csv", csv_data)
+    print(f"Data for employee ID {user_id} has been exported to {user_id}.csv")
+
+
+if __name__ == "__main__":
+    main()
