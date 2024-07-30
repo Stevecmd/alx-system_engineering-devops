@@ -29,44 +29,36 @@ import requests
 import sys
 
 
-def get_employee_todo_progress(employee_id):
-    base_url = "https://jsonplaceholder.typicode.com"
+# Define base URL
+BASE_URL = "https://jsonplaceholder.typicode.com/"
 
-    # Fetch employee data
-    user_response = requests.get(f"{base_url}/users/{employee_id}")
-    if user_response.status_code != 200:
-        print(f"User with ID {employee_id} not found.")
-        return
 
-    user_data = user_response.json()
-    employee_name = user_data.get("username")
+def get_user_data(user_id):
+    """
+    Fetch user data and TODO list for the given user ID.
+    """
+    user = requests.get(f"{BASE_URL}users/{user_id}").json()
+    username = user.get("username")
+    todos = requests.get(f"{BASE_URL}todos", params={"userId": user_id}).json()
+    return user_id, username, todos
 
-    # Fetch TODO list data
-    todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
-    if todos_response.status_code != 200:
-        print(f"Could not fetch TODO list for user ID {employee_id}.")
-        return
 
-    todos_data = todos_response.json()
-
-    # Prepare data for JSON export
-    tasks = []
-    for task in todos_data:
-        tasks.append({
+def export_to_json(filename, data):
+    """
+    Export data to a JSON file with the specified filename.
+    """
+    with open(f"{filename}.json", "w") as jsonfile:
+        json.dump({data[0]: [{
             "task": task.get("title"),
             "completed": task.get("completed"),
-            "username": employee_name
-        })
-
-    data = {str(employee_id): tasks}
-
-    # Export to JSON
-    json_filename = f"{employee_id}.json"
-    with open(json_filename, mode='w') as file:
-        json.dump(data, file)
+            "username": data[1]
+        } for task in data[2]]}, jsonfile, indent=4)
 
 
-if __name__ == "__main__":
+def main():
+    """
+    Main function to handle user input and process the TODO list.
+    """
     if len(sys.argv) != 2:
         print("Usage: python3 2-export_to_JSON.py <employee_id>")
         sys.exit(1)
@@ -77,4 +69,13 @@ if __name__ == "__main__":
         print("Employee ID must be an integer.")
         sys.exit(1)
 
-    get_employee_todo_progress(employee_id)
+    user_data = get_user_data(employee_id)
+    export_to_json(employee_id, user_data)
+    print(
+        f"Data for employee ID {employee_id} has been exported to "
+        f"{employee_id}.json"
+    )
+
+
+if __name__ == "__main__":
+    main()
