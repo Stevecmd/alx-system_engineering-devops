@@ -31,7 +31,6 @@ import sys
 BASE_URL = "https://jsonplaceholder.typicode.com/"
 
 
-# Define a function to get user data
 def get_user_data(user_id):
     """
     Fetch user data and TODO list for the given user ID.
@@ -48,6 +47,15 @@ def export_to_csv(filename, data):
     """
     with open(filename, "w", newline="") as csvfile:
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        # Write header
+        writer.writerow(
+            [
+                "USER_ID",
+                "USERNAME",
+                "TASK_COMPLETED_STATUS",
+                "TASK_TITLE"
+            ]
+        )
         for element in data:
             writer.writerow(element)
 
