@@ -30,8 +30,15 @@ The main branch is protected to prevent unauthorized changes. However, this prot
 - Lack of Testing and Quality Assurance:
 The changes were pushed directly to the main branch without undergoing the standard testing, quality assurance, and approval process.
 
-- Miscommunication and Misunderstanding:
-The intern mistakenly believed that the changes could be made directly on the main branch due to their critical nature and perceived minor impact.
+**Detection and Investigation**
+- **How the issue was detected:**
+The issue was detected by the monitoring tools that flagged the website downtime and alerted the development and security teams.
+
+- **Misleading investigation/debugging paths:**
+Initially, the team suspected a server issue or a network outage. Several hours were spent investigating these areas before identifying the unauthorized deployment as the root cause.
+
+- **Escalation:**
+The incident was escalated to the DevOps team and the head of security for immediate action and resolution.
 
 **Impact**
 - Website Downtime: JopMed.co.ke was offline for approximately one hour, resulting in potential loss of business, user trust, and SEO ranking.
@@ -39,6 +46,7 @@ The intern mistakenly believed that the changes could be made directly on the ma
 - CI/CD Pipeline Disruption: The CI/CD pipeline was affected, causing delays in other scheduled deployments.
 Resolution
 
+**Resolution**
 ![Incident timeline](2-hour-window-2.png)
 
 Immediate Actions Taken:
