@@ -88,4 +88,4 @@ Conduct regular third-party security and process audits to ensure compliance wit
 Regularly conduct incident response drills to ensure that the team is prepared to quickly identify and mitigate issues.
 
 **Conclusion**
-This incident highlighted critical gaps in access control, communication, and adherence to deployment procedures. By implementing the outlined resolution and preventative measures, we aim to prevent similar incidents in the future and ensure the continued reliability and security of JopMed.co.ke.
+This incident highlighted critical gaps in access control, communication, and adherence to deployment procedures. By implementing the outlined resolution and preventative measures, we aim to prevent similar incidents in the future and ensure the continued reliability and security of `JopMed.co.ke`.
