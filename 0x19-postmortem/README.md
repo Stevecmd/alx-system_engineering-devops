@@ -3,8 +3,8 @@
 
 ### Incident Report: Unauthorized Deployment and Website Outage - JopMed.co.ke
 
-**Date of Incident**: August 12, 2024
-**Reported By**: Steve Murimi
+**Date of Incident**: August 12, 2024 <br />
+**Reported By**: Steve Murimi <br />
 **Affected System**: `JopMed.co.ke` (Production Website)
 
 ![Incident Response Timeline](img.png)
