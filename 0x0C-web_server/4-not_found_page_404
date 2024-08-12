@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Script to automate the installation and configuration of Nginx with a custom 404 page.
+
+# Update package list and install Nginx
+echo "Updating package list and installing Nginx..."
+sudo apt-get update -y -qq && sudo apt-get install -y nginx
+
+# Allow incoming HTTP traffic through firewall
+echo "Allowing Nginx HTTP through the firewall..."
+sudo ufw allow 'Nginx HTTP'
+
+# Give user ownership rights to website files
+echo "Setting permissions for web files..."
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# Backup the default index page
+echo "Backing up the default index page..."
+sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Create a custom HTML file
+echo "Creating a custom index page..."
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+
+# Create a custom 404 page
+echo "Creating a custom 404 page..."
+echo "<html><body>Ceci n'est pas une page</body></html>" > /var/www/html/404.html
+
+# Configure Nginx to use the custom 404 page
+echo "Configuring Nginx to use the custom 404 page..."
+sudo sed -i '/server_name _;/a error_page 404 /404.html;' /etc/nginx/sites-available/default
+
+# Test Nginx configuration for syntax errors
+echo "Testing Nginx configuration..."
+sudo nginx -t
+
+# Restart Nginx to apply the changes
+echo "Restarting Nginx..."
+sudo service nginx restart
+
+echo "Nginx installation and configuration complete."

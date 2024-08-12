@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# This script uses the `ifconfig` command to display network interface configuration information
+
+# It then filters the output using `grep` to extract lines containing IPv4 addresses.
+# The `-E` option enables extended regular expressions for `grep`,
+# and `-o` prints only the matching part of the lines.
+# The regular expression pattern matches IPv4 addresses in the format "inet addr:<IP_ADDRESS>",
+# where <IP_ADDRESS> is in dotted-decimal notation.
+# The `cut` command is then used to extract characters starting from
+# the 11th position of each matching line,
+# effectively removing the "inet addr:" prefix
+# and leaving only the IP addresses.
+
+ifconfig | grep -Eo "inet (addr:)?([0-9]*\.){3}[0-9]*" | cut -b 11-

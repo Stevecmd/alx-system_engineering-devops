@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Script to transfer a file to a remote server using scp.
+
+# Check if the number of arguments is less than 4
+if [ "$#" -lt 4 ]; then
+    echo "Usage: $0 PATH_TO_FILE SERVER_IP USERNAME SSH_KEY_PATH"
+    exit 1
+fi
+
+# Assign arguments to variables with descriptive names
+file_to_transfer="$1"
+server_ip="$2"
+username="$3"
+ssh_key_path="$4"
+
+# Check if the SSH key file exists and is readable
+if [ ! -f "$ssh_key_path" ] || [ ! -r "$ssh_key_path" ]; then
+    echo "Error: SSH key file '$ssh_key_path' does not exist or is not readable."
+    exit 2
+fi
+
+# Transfer the file using scp with strict host key checking disabled
+if scp -i "$ssh_key_path" -o StrictHostKeyChecking=no "$file_to_transfer" "${username}@${server_ip}:~/"; then
+    echo "File '$file_to_transfer' successfully transferred to ${username}@${server_ip}."
+else
+    echo "Error: Failed to transfer file."
+    exit 3
+fi

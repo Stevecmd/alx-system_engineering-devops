@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+lines=$(ls -la | wc -l)
+echo "The number of lines is $lines"
+if [ "$1" == "current" ]
+then
+    pwd
+elif [ "$1" == "data" ]
+then
+    ls -la
+else
+    echo "command not found"
+fi
+
+
+# Usage:
+# ./conditional.sh current
+# ./conditional.sh data

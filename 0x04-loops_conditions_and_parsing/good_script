@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This is a bad script
+
+var='some text'
+unused_variable='sme unused variable'
+
+echo "$var"
+echo "$unused_variable"

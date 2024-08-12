@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Start Apache in a Docker container.
+
+# Update package list
+apt-get update
+
+# Install Apache2 if it's not already installed
+apt-get install -y apache2
+
+# Start Apache2
+service apache2 start
+
+# Check if Apache2 is running and output the required message
+if service apache2 status; then
+    echo "apache2 is running"
+else
+    echo "apache2 is not running"
+fi
+
+# Serve "Hello Holberton" page
+echo "Hello Holberton" > /var/www/html/index.html

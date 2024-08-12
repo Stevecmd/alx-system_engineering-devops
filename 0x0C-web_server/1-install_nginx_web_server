@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Script to automate the installation and configuration of Nginx.
+
+# Update and install nginx
+apt-get update
+apt-get -y install nginx
+
+# Start nginx service
+sudo service nginx start
+
+# Allow incoming HTTP traffic through firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Modify website file permissions
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# Backup Original index file
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Create a custom HTML file
+echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
+
+# ReStart the Nginx service
+sudo service nginx restart

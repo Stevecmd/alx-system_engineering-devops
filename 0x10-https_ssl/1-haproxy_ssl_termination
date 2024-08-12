@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# HAproxy SSL termination
+
+# Update package list and install necessary packages
+sudo apt-get update
+sudo apt-get install -y haproxy certbot python3-certbot-nginx
+
+# Generate SSL certificate using certbot
+sudo certbot certonly --standalone -d www.stevecloud.tech --non-interactive --agree-tos -m your-email@example.com
+
+# Define the path to the generated certificate and key
+CERT_PATH="/etc/letsencrypt/live/www.stevecloud.tech/fullchain.pem"
+KEY_PATH="/etc/letsencrypt/live/www.stevecloud.tech/privkey.pem"
+
+# Configure HAProxy
+sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOL
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+    # Default SSL material locations
+    ca-base /etc/ssl/certs
+    crt-base /etc/ssl/private
+
+    # See: https://ssl-config.mozilla.org/#server=haproxy&version=2.0.0
+    ssl-default-bind-ciphers PROFILE=SYSTEM
+    ssl-default-bind-options no-sslv3
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
+
+frontend www-https
+    bind *:443 ssl crt ${CERT_PATH} key ${KEY_PATH}
+    mode http
+    default_backend servers
+
+backend servers
+    mode http
+    server server1 127.0.0.1:80 check
+EOL
+
+# Restart HAProxy to apply the new configuration
+sudo systemctl restart haproxy
+
+# Verify the setup
+curl -sI https://www.stevecloud.tech
+curl https://www.stevecloud.tech

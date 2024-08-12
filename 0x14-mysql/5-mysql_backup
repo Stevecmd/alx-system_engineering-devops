@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Script to backup and compress all MySQL databases
+
+# Construct the filename using the current date
+file_name=$(date +"%d-%m-%Y").tar.gz
+
+# Run the mysqldump command to backup all databases to a SQL file
+mysqldump --user=root --password="$1" --all-databases > backup.sql
+
+# Compress the SQL backup file into a tar.gz archive with the generated filename
+tar -cvzf "$file_name" backup.sql
