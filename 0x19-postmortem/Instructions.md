@@ -9,4 +9,4 @@ A postmortem is a tool widely used in the tech industry. After any outage, the t
     - And to ensure that the root cause(s) of the outage has been discovered and that measures are taken to make sure it will be fixed.
 
 ## Resources
-- [Incident Report, also referred to as a Postmortem]()
+- ![Incident Report, also referred to as a Postmortem](https://safetyiq.com/insight/how-to-write-an-incident-report-with-examples/)
