@@ -44,7 +44,8 @@ Requirements:
 
 ```sh
 
-stevecmd@stevecmd-HP-Notebook-PC ~/reddit_api/project $ cat 0-main.py
+stevecmd@stevecmd-HP-ENVY-15-Notebook-PC:/media/stevecmd/48444E06444DF6EA/ALX/alx-system_engineering-devops/0x16-api_advanced$ pycodestyle *.py
+stevecmd@stevecmd-HP-ENVY-15-Notebook-PC:/media/stevecmd/48444E06444DF6EA/ALX/alx-system_engineering-devops/0x16-api_advanced$ cat 0-main.py
 #!/usr/bin/python3
 """
 0-main
@@ -57,9 +58,10 @@ if __name__ == '__main__':
         print("Please pass an argument for the subreddit to search.")
     else:
         print("{:d}".format(number_of_subscribers(sys.argv[1])))
-stevecmd@stevecmd-HP-Notebook-PC ~/reddit_api/project $ python3 0-main.py programming
-756024
-stevecmd@stevecmd-HP-Notebook-PC ~/reddit_api/project $ python3 0-main.py this_is_a_fake_subreddit
+stevecmd@stevecmd-HP-ENVY-15-Notebook-PC:/media/stevecmd/48444E06444DF6EA/ALX/alx-system_engineering-devops/0x16-api_advanced$ python3 0-main.py programming
+6354618
+stevecmd@stevecmd-HP-ENVY-15-Notebook-PC:/media/stevecmd/48444E06444DF6EA/ALX/alx-system_engineering-devops/0x16-api_advanced$ python3 0-main.py this_is_a_fake_subreddit
+0
 
 ```
 File: `0-subs.py`
