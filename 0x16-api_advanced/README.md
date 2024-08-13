@@ -1,6 +1,6 @@
-# 0x16-api_advanced
+# 0x16. API Advanced
 
-Resources
+## Resources
 
 Read or watch:
 
@@ -14,6 +14,27 @@ Read or watch:
 - How to parse JSON results from an API
 - How to make a recursive API call
 - How to sort a dictionary by value
+
+## Background Context
+Reddit is a popular social media platform where users can join communities (subreddits) based on their interests. <br /> 
+Each subreddit has its own set of posts, discussions, and subscriber count. <br />
+The Reddit API provides a way for developers to programmatically access and interact with the data available on Reddit. <br />
+This project aims to leverage the Reddit API to extract useful information from subreddits and present it in a structured manner. <br />
+
+The project is structured around several key tasks:
+
+How many subs?: Write a function that queries the Reddit API and returns the number of subscribers for a given subreddit. If the subreddit is invalid, the function should return 0. <br />
+
+Top Ten: Write a function that queries the Reddit API and prints the titles of the first 10 hot posts listed for a given subreddit. If the subreddit is invalid, the function should print None. <br />
+
+Recurse it!: Write a recursive function that queries the Reddit API and returns a list containing the titles of all hot articles for a given subreddit. If no results are found, the function should return None. <br />
+
+The project requires adherence to specific coding standards and practices, including the use of the PEP 8 style guide, organizing imports alphabetically, and ensuring all files are executable. Additionally, the project mandates the use of the Requests module for sending HTTP requests to the Reddit API and handling potential issues such as rate limiting by setting a custom User-Agent. <br />
+
+By completing this project, developers will gain experience in working with APIs, handling JSON data, implementing recursive functions, and following best practices in Python programming. <br />
+
+## Project Description
+This project involves creating Python scripts that interact with the Reddit API to retrieve and process data from various subreddits. The primary goal is to develop functions that can query the Reddit API to obtain information such as the number of subscribers, the titles of the top posts, and a list of all hot articles for a given subreddit. The project emphasizes the use of proper API documentation, handling pagination, parsing JSON responses, and implementing recursive API calls.
 
 ## Requirements
 ### General
@@ -151,5 +172,19 @@ stevecmd@stevecmd-HP-Notebook-PC ~/reddit_api/project $ python3 2-main.py this_i
 ```
 File: `2-recurse.py`
 
+## Usage
 
+To use the scripts in this project, follow these steps:
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repository_url>
+   cd <repository_directory>
+   ```
+2. Ensure you have Python 3 installed:
+    ```bash
+    python3 --version
+    ```
+## Acknowledgments
+This project was completed as part of the ALX Software Engineering program.
 
