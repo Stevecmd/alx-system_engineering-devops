@@ -42,8 +42,8 @@ def count_words(subreddit, word_list, after=None, word_count=None):
             for word in word_list:
                 word_lower = word.lower()
                 word_count[word_lower] = (
-                    word_count.get(word_lower, 0)
-                    + title.split().count(word_lower)
+                    word_count.get(word_lower, 0) +
+                    title.split().count(word_lower)
                 )
         after = data.get("after")
         if after is None:
