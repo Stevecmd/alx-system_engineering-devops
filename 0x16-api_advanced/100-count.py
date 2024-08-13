@@ -10,7 +10,7 @@ import requests
 
 def count_words(subreddit, word_list, after=None, word_count=None):
     """Counts the occurrences of keywords in the
-    titles of hot articles for a given subreddit.
+    titles of hot articles for a given subreddit
     """
     if word_count is None:
         word_count = {}
