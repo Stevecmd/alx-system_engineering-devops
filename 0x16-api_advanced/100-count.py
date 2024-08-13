@@ -8,7 +8,7 @@ and prints a sorted count of given keywords.
 import requests
 
 
-def count_words(subreddit, word_list, after="", word_count=None, count=0):
+def count_words(subreddit, word_list, after=None, word_count=None):
     """Counts the occurrences of keywords in the
     titles of hot articles for a given subreddit.
     """
@@ -17,12 +17,11 @@ def count_words(subreddit, word_list, after="", word_count=None, count=0):
 
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+        'User-Agent': 'Mozilla/5.0'
     }
     params = {
         'limit': 100,
-        'after': after,
-        'count': count
+        'after': after
     }
 
     try:
@@ -47,11 +46,7 @@ def count_words(subreddit, word_list, after="", word_count=None, count=0):
                     + title.split().count(word_lower)
                 )
         after = data.get("after")
-        count += data.get("dist", 0)
         if after is None:
-            if len(word_count) == 0:
-                print("")
-                return
             sorted_word_count = sorted(
                 word_count.items(),
                 key=lambda kv: (-kv[1], kv[0])
@@ -60,6 +55,6 @@ def count_words(subreddit, word_list, after="", word_count=None, count=0):
                 if count > 0:
                     print("{}: {}".format(word, count))
             return
-        return count_words(subreddit, word_list, after, word_count, count)
+        return count_words(subreddit, word_list, after, word_count)
     except requests.RequestException:
         return
