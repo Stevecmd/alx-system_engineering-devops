@@ -24,18 +24,20 @@ def top_ten(subreddit):
             params=params,
             allow_redirects=False
         )
-        if response.status_code != 200:
-            print(None)
-            return
+        response.raise_for_status()
+    except requests.RequestException as e:
+        print("Error:", e)
+        return None
+
         try:
-            data = response.json().get("data", {}).get("children", [])
-        except ValueError:
-            print(None)
+            data = json.loads(response.text)
+        except json.JSONDecodeError as e:
+            print("Error parsing JSON:", e)
             return
-        if not data:
-            print(None)
+
+        if not data or "data" not in data or "children" not in data["data"]:
+            print("No data found")
             return
-        for post in data:
-            print(post.get("data", {}).get("title"))
-    except requests.RequestException:
-        print(None)
+
+        for post in data["data"]["children"]:
+            print(post["data"]["title"])
