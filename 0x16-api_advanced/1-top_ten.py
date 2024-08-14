@@ -25,6 +25,9 @@ def top_ten(subreddit):
             params=params,
             allow_redirects=False
         )
+        if response.status_code == 404:
+            print(None)
+            return
         response.raise_for_status()
     except requests.RequestException as e:
         print("Error:", e)
