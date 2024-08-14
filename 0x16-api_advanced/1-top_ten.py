@@ -40,9 +40,9 @@ def top_ten(subreddit):
         print("Error parsing JSON:", e)
         return
 
-        if not data or "data" not in data or "children" not in data["data"]:
-            print("No data found")
-            return
+    if not data or "data" not in data or "children" not in data["data"]:
+        print("No data found")
+        return
 
-        for post in data["data"]["children"]:
-            print(post["data"]["title"])
+    for post in data["data"]["children"]:
+        print(post["data"]["title"])
