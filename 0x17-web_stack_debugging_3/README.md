@@ -1,5 +1,9 @@
 # 0x17-web_stack_debugging_3
 
+### Resources
+[Puppet-Lint](http://puppet-lint.com/) <br />
+[Puppet-CookBook](https://www.puppetcookbook.com/posts/install-and-run-puppet-lint.html)
+
 ### Install puppet-lint
 ```sh
 $ apt-get install -y ruby
