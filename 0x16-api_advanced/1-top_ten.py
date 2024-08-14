@@ -30,11 +30,15 @@ def top_ten(subreddit):
         print("Error:", e)
         return None
 
-        try:
+    try:
+        if response.text:
             data = json.loads(response.text)
-        except json.JSONDecodeError as e:
-            print("Error parsing JSON:", e)
+        else:
+            print("No data found")
             return
+    except json.JSONDecodeError as e:
+        print("Error parsing JSON:", e)
+        return
 
         if not data or "data" not in data or "children" not in data["data"]:
             print("No data found")
