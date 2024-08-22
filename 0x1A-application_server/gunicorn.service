@@ -4,18 +4,24 @@ author SteveCMD
 After=network.target
 
 [Service]
+# Run the service using the ubuntu user
 User=ubuntu
 Group=www-data
 PermissionsStartOnly=true
 PIDFile=/run/hbnb/hbnb.pid
+# Configure the working directory
 WorkingDirectory=/home/ubuntu/AirBnB_clone_v4
+
 ExecStartPre=/bin/mkdir /run/hbnb
 ExecStartPre=/bin/chown -R ubuntu:ubuntu /run/hbnb
 ExecStart=/usr/bin/env HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db gunicorn --workers 3 --bind 0.0.0.0:5003 web_dynamic.2-hbnb:app >> /tmp/airbnb-access.log 2> /tmp/airbnb-error.log
+# Syslog message identifier
+SyslogIdentifier=gunicorn
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 ExecStopPost=/bin/rm -rf /run/hbnb
 PrivateTmp=false
+# Automatically restart service
 Restart=always
 
 [Install]
