@@ -1,4 +1,4 @@
 # No service interruption - Reload Gunicorn gracefully
 
 # Find the Gunicorn master process PID
-ps aux | grep 'gunicorn: master' | grep -v grep | awk '{print $2}' | xargs kill -HUP
+ps aux | grep gunicorn | awk '{print $2}' | xargs kill -HUP
