@@ -6,6 +6,7 @@ of the first 10 hot posts listed for a given subreddit
 
 import json
 import requests
+import sys
 
 
 def top_ten(subreddit):
@@ -34,18 +35,20 @@ def top_ten(subreddit):
         return None
 
     try:
-        if response.text:
-            data = json.loads(response.text)
-        else:
-            # print("No data found")
-            return
+        data = response.json()
     except json.JSONDecodeError as e:
         print("Error parsing JSON:", e)
         return
 
     if not data or "data" not in data or "children" not in data["data"]:
-        # print("No data found")
+        print("No data found")
         return
 
     for post in data["data"]["children"]:
         print(post["data"]["title"])
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python3 1-top_ten.py <subreddit>")
+        sys.exit(1)
