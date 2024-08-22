@@ -46,8 +46,7 @@ ubuntu@229-web-01:~/AirBnB_clone_v2$ python3 -m web_flask.0-hello_route
 Window 2:
 ```sh
 
-ubuntu@229-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1:5000/airbnb-onepage/
-Hello HBNB!ubuntu@229-web-01:~/AirBnB_clone_v2$
+ubuntu@197045-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1:5000/airbnb-onepage/
 
 
 ```
@@ -63,21 +62,52 @@ Requirements:
 - You will serve the same content from the same route as in the previous task. You can verify that it’s working by binding a `Gunicorn` instance to localhost listening on port `5000` with your application object as the entry point.
 - In order to check your code, the checker will bind a `Gunicorn` instance to port `6000`, so make sure nothing is listening on that port.
 
-Example:
+Example 1:
 Terminal 1:
 ```sh
 
-ubuntu@229-web-01:~/AirBnB_clone_v2$ gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app
-[2019-05-03 20:47:20 +0000] [3595] [INFO] Starting gunicorn 19.9.0
-[2019-05-03 20:47:20 +0000] [3595] [INFO] Listening at: http://0.0.0.0:5000 (3595)
-[2019-05-03 20:47:20 +0000] [3595] [INFO] Using worker: sync
-[2019-05-03 20:47:20 +0000] [3598] [INFO] Booting worker with pid: 3598
+ubuntu@197045-web-01:~/AirBnB_clone_v2$ gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app
+[2024-08-21 11:54:32 +0000] [2793367] [INFO] Starting gunicorn 20.0.4
+[2024-08-21 11:54:32 +0000] [2793367] [INFO] Listening at: http://0.0.0.0:5000 (2793367)
+[2024-08-21 11:54:32 +0000] [2793367] [INFO] Using worker: sync
+[2024-08-21 11:54:32 +0000] [2793369] [INFO] Booting worker with pid: 2793369
 
 ```
 Terminal 2:
 ```sh
-ubuntu@229-web-01:~$ curl 127.0.0.1:5000/airbnb-onepage/
-Hello HBNB!ubuntu@229-web-01:~$
+ubuntu@197045-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1:5000/airbnb-onepage/
+Hello HBNB!
+```
+
+Example 2:
+Terminal 1:
+```sh
+
+ubuntu@197045-web-01:~/AirBnB_clone_v2$ tmux new-session -d 'gunicorn --bind 0.0.0.0:5001 web_flask.6-number_odd_or_even:app'
+ubuntu@197045-web-01:~/AirBnB_clone_v2$ sudo lsof -i |grep gunicorn
+gunicorn  2793446          ubuntu    5u  IPv4 2723895      0t0  TCP *:5001 (LISTEN)
+gunicorn  2793449          ubuntu    5u  IPv4 2723895      0t0  TCP *:5001 (LISTEN)
+
+```
+Terminal 2:
+```sh
+ubuntu@197045-web-01:/AirBnB_clone_v2$ curl 127.0.0.1:5001/number_odd_or_even/7
+<!DOCTYPE html>
+<HTML lang="en">
+<HEAD>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <TITLE>HBNB</TITLE>
+</HEAD>
+<BODY>
+    <H1>Number: 7 is odd</H1>
+</BODY>
+</HTML>ubuntu@197045-web-01:/AirBnB_clone_v2$ curl 127.0.0.1:5001/number_odd_or_even/dummydata
+<!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
 ```
 
 2. Serve a page with Nginx
@@ -99,7 +129,7 @@ Example:
 On my server:
 Window 1:
 ```sh
-ubuntu@229-web-01:~/AirBnB_clone_v2$ gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app
+ubuntu@197045-web-01:~/AirBnB_clone_v2$ tmux new-session -d 'gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app'
 [2019-05-06 20:43:57 +0000] [14026] [INFO] Starting gunicorn 19.9.0
 [2019-05-06 20:43:57 +0000] [14026] [INFO] Listening at: http://0.0.0.0:5000 (14026)
 [2019-05-06 20:43:57 +0000] [14026] [INFO] Using worker: sync
@@ -108,8 +138,8 @@ ubuntu@229-web-01:~/AirBnB_clone_v2$ gunicorn --bind 0.0.0.0:5000 web_flask.0-he
 
 Window 2:
 ```sh
-ubuntu@229-web-01:~/AirBnB_clone_v2$ curl 127.0.0.1/airbnb-onepage/
-Hello HBNB!ubuntu@229-web-01:~/AirBnB_clone_v2$
+ubuntu@197045-web-01:/AirBnB_clone_v2$ curl 127.0.0.1/airbnb-onepage/
+Hello HBNB!ubuntu@197045-web-01:/AirBnB_clone_v2$ 
 ```
 
 On my local terminal:
