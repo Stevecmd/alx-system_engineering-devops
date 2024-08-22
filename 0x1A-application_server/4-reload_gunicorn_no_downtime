@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # No service interruption - Reload Gunicorn gracefully
 
 # Find the Gunicorn master process PID
