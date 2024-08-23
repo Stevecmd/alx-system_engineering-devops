@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 # No service interruption - Reload Gunicorn gracefully
 
+# Function to reload Gunicorn using pgrep
+reload_gunicorn() {
+    pgrep gunicorn | xargs kill -HUP
+}
+
 # Reload Gunicorn using systemd
 sudo systemctl reload gunicorn
+
+# Call the function to reload Gunicorn gracefully
+reload_gunicorn
